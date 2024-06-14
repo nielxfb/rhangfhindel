@@ -2,10 +2,18 @@ package edu.bluejack23_2.rhangfhindel
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 
 class MainActivity : AppCompatActivity() {
+
+    private val assistantRepository = AssistantRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Log.i("mantapsekali", "ahh")
+        assistantRepository.fetchAssistantData("hh23-2", "23-2")
     }
 }
