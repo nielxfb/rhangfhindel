@@ -12,7 +12,10 @@
         android:theme="@style/Theme.Rhangfhindel"
         tools:targetApi="31">
         <activity
-            android:name="edu.bluejack23_2.rhangfhindel.activities.LoginActivity"
+            android:name=".activities.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
