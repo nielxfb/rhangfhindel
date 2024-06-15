@@ -10,18 +10,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var username_input: EditText
     private lateinit var password_input: EditText
     private lateinit var login_button: Button
+    private val assistantRepository = AssistantRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
         setEvent()
+        assistantRepository.fetchAssistantData(this, "hh23-2", "23-2")
     }
 
     private fun init() {

@@ -1,5 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,8 +15,8 @@ class AssistantRepository {
     private val _assistantList = MutableLiveData<List<Assistant>>()
     val assistantList: LiveData<List<Assistant>> get() = _assistantList
 
-    fun fetchAssistantData(initial: String, generation: String) {
-        val call = RetrofitClient.apiService.getAssistant(initial, generation)
+    fun fetchAssistantData(context: Context, initial: String, generation: String) {
+        val call = RetrofitClient.getApiService(context).getAssistant(initial, generation)
         call.enqueue(object : Callback<List<Assistant>> {
             override fun onResponse(call: Call<List<Assistant>>, response: Response<List<Assistant>>) {
                 Log.i("mantapsekali", "onResponse")

@@ -11,6 +11,4 @@ interface ApiService {
         @Query("initial") initial: String,
         @Query("generation") generation: String
     ): Call<List<Assistant>>
-
-
 }
