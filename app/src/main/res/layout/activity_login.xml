@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LoginActivity"
+    android:background="@color/primary_color"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    android:gravity="center"
-    android:background="@color/primary_color">
+    tools:context=".activities.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        app:contentPadding="30dp"
-        app:cardCornerRadius="7dp">
+        app:cardCornerRadius="7dp"
+        app:contentPadding="30dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,46 +26,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                android:textSize="30sp"
-                android:textFontWeight="700"
+                android:textAlignment="viewStart"
                 android:textColor="@color/bold_font"
-                android:textAlignment="viewStart" />
+                android:textFontWeight="700"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/app_description"
-                android:textSize="15sp"
                 android:textFontWeight="600"
-                android:layout_marginBottom="10dp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/username_input"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:hint="@string/username_placeholder"
                 android:inputType="text"
-                android:textFontWeight="700"
-                android:hint="Username" />
+                android:textFontWeight="700" />
 
             <EditText
                 android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:hint="@string/password_placeholder"
                 android:inputType="textPassword"
-                android:textFontWeight="700"
-                android:hint="Password" />
+                android:textFontWeight="700" />
 
             <com.google.android.material.button.MaterialButton
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/login_button"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:textSize="14sp"
                 android:textAllCaps="false"
-                app:backgroundTint="@color/accent_background"
                 android:textColor="@color/accent"
-                android:textFontWeight="700" />
+                android:textFontWeight="700"
+                android:textSize="14sp"
+                app:backgroundTint="@color/accent_background" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

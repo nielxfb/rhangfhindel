@@ -2,6 +2,7 @@ package edu.bluejack23_2.rhangfhindel.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import edu.bluejack23_2.rhangfhindel.R
 import android.view.Window
 import android.view.WindowManager
@@ -20,7 +21,6 @@ class LoginActivity : BaseActivity() {
     private lateinit var usernameInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
-    private val assistantRepository = AssistantRepository()
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,41 +29,46 @@ class LoginActivity : BaseActivity() {
 
         init()
         setEvent()
-        changeStatusBarColor()
-
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-
-        viewModel.logOn(this, "HH23-2", "Vovo13245")
-
-        // Observasi LiveData untuk mendapatkan hasil
-        viewModel.assistant.observe(this, Observer { assistantList ->
-            // Handle hasil yang diterima, update UI, dsb.
-        })
+        changeStatusBarColor(R.color.primary_color)
     }
 
     override fun init() {
         usernameInput = findViewById(R.id.username_input)
         passwordInput = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_button)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
     }
 
     override fun setEvent() {
         loginButton.setOnClickListener {
-            val username = usernameInput.text
-            val password = passwordInput.text
+            val username = usernameInput.text.toString()
+            val password = passwordInput.text.toString()
 
+            val initialPattern = "^[A-Za-z]{2}\\d{2}-\\d$".toRegex()
+
+            var error = ""
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
-            } else {
-                redirect()
+                error = "All fields are required"
+            } else if (!username.matches(initialPattern)) {
+                error = "Invalid initial format"
             }
-        }
-    }
 
-    override fun changeStatusBarColor() {
-        val window: Window = window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.primary_color)
+            if (error.isNotEmpty()) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            viewModel.success.observe(this, Observer { success ->
+                if (!success) {
+                    Toast.makeText(this, "Credentials invalid", Toast.LENGTH_SHORT).show()
+                    return@Observer
+                }
+
+                redirect()
+            })
+
+            viewModel.logOn(this, username, password)
+        }
     }
 
     private fun redirect() {
