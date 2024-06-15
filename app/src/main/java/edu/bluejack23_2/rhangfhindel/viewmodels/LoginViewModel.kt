@@ -16,13 +16,21 @@ class LoginViewModel : ViewModel(){
     private val assistantRepository = AssistantRepository()
 
     val assistant: LiveData<Assistant> get() = assistantRepository.assistant
+    private fun saveAssistant(context: Context){
+        assistant.value?.let { SharedPrefManager.saveAssistant(context, it) }
+    }
 
-    fun logOn(username: String, password: String) {
+    fun logOn(context: Context, username: String, password: String) {
         val logOnBody = LogOnBody(username, password)
         viewModelScope.launch {
             assistantRepository.logOn(logOnBody)
             Log.d("getMyIdentity", "didalam view model ${assistant.value}")
+            saveAssistant(context)
+            val tesAssistant = SharedPrefManager.getAssistant(context)
+            Log.d("sharedPref", "dalam view model $tesAssistant")
         }
+
+
     }
 
 }

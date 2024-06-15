@@ -33,7 +33,7 @@ class LoginActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-        viewModel.logOn("HH23-2", "Vovo13245")
+        viewModel.logOn(this, "HH23-2", "Vovo13245")
 
         // Observasi LiveData untuk mendapatkan hasil
         viewModel.assistant.observe(this, Observer { assistantList ->
