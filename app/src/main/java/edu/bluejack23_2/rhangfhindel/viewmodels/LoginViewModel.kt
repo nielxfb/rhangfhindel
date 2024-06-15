@@ -21,7 +21,7 @@ class LoginViewModel : ViewModel(){
     fun getMyIdentity(context: Context, initial: String, generation: String) {
         viewModelScope.launch {
             assistantRepository.getMyIdentity(context)
-            Log.d("getMyIdentity", "didalam view model ${assistant.value!!.Username}")
+            Log.d("getMyIdentity", "didalam view model ${assistant.value}")
         }
     }
 

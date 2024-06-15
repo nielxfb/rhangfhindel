@@ -41,7 +41,7 @@
             <EditText
                 android:id="@+id/username_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:inputType="text"
                 android:textFontWeight="700"
                 android:hint="Username" />
@@ -49,7 +49,7 @@
             <EditText
                 android:id="@+id/password_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:inputType="textPassword"
                 android:textFontWeight="700"
                 android:hint="Password" />
