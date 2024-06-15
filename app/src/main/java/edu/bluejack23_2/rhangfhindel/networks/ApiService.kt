@@ -14,10 +14,19 @@ interface ApiService {
     fun getMyIdentity(
     ): Call<Assistant>
 
-    @POST("Account/LogOn")
+    @POST("Account/LogOnGalaxionRemake")
     fun logOn(
         @Body logOnBody: LogOnBody
-    ): Call<APIToken>
+    ): Call<LogOnResponse>
 
 
 }
+
+data class LogOnResponse (
+    val User: Assistant
+)
+
+//interface IToken (
+//    val token: String
+//    val expires: String
+//)

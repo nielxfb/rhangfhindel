@@ -16,31 +16,13 @@ class LoginViewModel : ViewModel(){
     private val assistantRepository = AssistantRepository()
 
     val assistant: LiveData<Assistant> get() = assistantRepository.assistant
-    val apiToken: LiveData<APIToken> get() = assistantRepository.apiToken
 
-    fun getMyIdentity(context: Context, initial: String, generation: String) {
+    fun logOn(context: Context, username: String, password: String) {
+        val logOnBody = LogOnBody(username, password)
         viewModelScope.launch {
-            assistantRepository.getMyIdentity(context)
+            assistantRepository.logOn(context, logOnBody)
             Log.d("getMyIdentity", "didalam view model ${assistant.value}")
         }
     }
 
-    fun getApiToken(context: Context, username: String, password: String) {
-        val logOnBody = LogOnBody(username, password)
-        viewModelScope.launch {
-            assistantRepository.getApiToken(context, logOnBody)
-            Log.d("getApiToken", "didalam view model $apiToken")
-
-            val token = apiToken.value?.access_token
-
-            if(token != null){
-                SharedPrefManager.saveAPIToken(context, token)
-            }
-
-            val sharedPrefToken = SharedPrefManager.getAPIToken(context)
-            if (sharedPrefToken != null) {
-                Log.i("sharedPref", sharedPrefToken)
-            }
-        }
-    }
 }
