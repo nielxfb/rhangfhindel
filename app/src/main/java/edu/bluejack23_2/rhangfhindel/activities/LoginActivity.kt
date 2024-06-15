@@ -17,9 +17,9 @@ import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var username_input: EditText
-    private lateinit var password_input: EditText
-    private lateinit var login_button: Button
+    private lateinit var usernameInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var loginButton: Button
     private val assistantRepository = AssistantRepository()
     private lateinit var viewModel: LoginViewModel
 
@@ -45,15 +45,15 @@ class LoginActivity : AppCompatActivity() {
     private fun init() {
         changeStatusBarColor()
 
-        username_input = findViewById(R.id.username_input)
-        password_input = findViewById(R.id.password_input)
-        login_button = findViewById(R.id.login_button)
+        usernameInput = findViewById(R.id.username_input)
+        passwordInput = findViewById(R.id.password_input)
+        loginButton = findViewById(R.id.login_button)
     }
 
     private fun setEvent() {
-        login_button.setOnClickListener {
-            var username = username_input.text
-            var password = password_input.text
+        loginButton.setOnClickListener {
+            val username = usernameInput.text
+            val password = passwordInput.text
 
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
