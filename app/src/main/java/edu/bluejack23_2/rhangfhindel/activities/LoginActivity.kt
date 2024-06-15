@@ -10,7 +10,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
+import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,13 +21,25 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var password_input: EditText
     private lateinit var login_button: Button
     private val assistantRepository = AssistantRepository()
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
         setEvent()
-        assistantRepository.fetchAssistantData(this, "hh23-2", "23-2")
+
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+        viewModel.getApiToken(this, "hh23-2", "Vovo13245")
+
+        viewModel.getMyIdentity(this, "hh23-2", "23-2")
+
+
+        // Observasi LiveData untuk mendapatkan hasil
+        viewModel.assistant.observe(this, Observer { assistantList ->
+            // Handle hasil yang diterima, update UI, dsb.
+        })
     }
 
     private fun init() {
