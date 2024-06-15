@@ -43,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:textFontWeight="700"
                 android:hint="Username" />
 
             <EditText
@@ -50,15 +51,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:textFontWeight="700"
                 android:hint="Password" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/accent_background"
+                android:text="Login"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                app:backgroundTint="@color/accent_background"
                 android:textColor="@color/accent"
-                android:text="Login" />
+                android:textFontWeight="700" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

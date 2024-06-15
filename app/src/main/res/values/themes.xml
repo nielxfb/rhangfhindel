@@ -2,5 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Rhangfhindel" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenBackground">@color/primary_color</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/primary_color</item>
     </style>
 </resources>
