@@ -17,10 +17,10 @@ class LoginViewModel : ViewModel(){
 
     val assistant: LiveData<Assistant> get() = assistantRepository.assistant
 
-    fun logOn(context: Context, username: String, password: String) {
+    fun logOn(username: String, password: String) {
         val logOnBody = LogOnBody(username, password)
         viewModelScope.launch {
-            assistantRepository.logOn(context, logOnBody)
+            assistantRepository.logOn(logOnBody)
             Log.d("getMyIdentity", "didalam view model ${assistant.value}")
         }
     }

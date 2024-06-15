@@ -16,9 +16,9 @@ class AssistantRepository {
     private val _assistant = MutableLiveData<Assistant>()
     val assistant: LiveData<Assistant> get() = _assistant
 
-    suspend fun logOn(context: Context, logOnBody: LogOnBody) {
+    suspend fun logOn(logOnBody: LogOnBody) {
         withContext(Dispatchers.IO) {
-            val call = RetrofitClient.getApiService(context).logOn(logOnBody)
+            val call = RetrofitClient.getApiService().logOn(logOnBody)
             val response = call.execute()
             if (response.isSuccessful) {
                 _assistant.postValue(response.body()?.User)
