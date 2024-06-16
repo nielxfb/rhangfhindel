@@ -24,6 +24,7 @@ class LoginViewModel : ViewModel() {
     private val assistant: LiveData<Assistant> get() = assistantRepository.assistant
 
     val errorMessage = MutableLiveData<String>()
+    val isLoading = MutableLiveData<Boolean>()
     val success = MutableLiveData<Boolean>()
 
     private fun validateInput() : Boolean{
@@ -49,10 +50,12 @@ class LoginViewModel : ViewModel() {
 
         val logOnBody = LogOnBody(username, password)
         viewModelScope.launch {
+            isLoading.value = true
             success.value = assistantRepository.logOn(logOnBody)
             if(success.value == true){
                 saveAssistant(context)
             }
+            isLoading.value = false
         }
     }
 

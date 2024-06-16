@@ -3,6 +3,7 @@ package edu.bluejack23_2.rhangfhindel.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import edu.bluejack23_2.rhangfhindel.R
 import android.view.Window
 import android.view.WindowManager
@@ -63,6 +64,9 @@ class LoginActivity : BaseActivity() {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
 
+        viewModel.isLoading.observe(this, Observer { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
     }
 
     private fun redirect() {
