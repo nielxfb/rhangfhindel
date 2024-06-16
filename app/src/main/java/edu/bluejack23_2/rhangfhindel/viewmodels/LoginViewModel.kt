@@ -15,6 +15,8 @@ import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import kotlinx.coroutines.launch
+import java.io.IOException
+import kotlin.math.log
 
 class LoginViewModel : ViewModel() {
     private val assistantRepository = AssistantRepository()
@@ -50,10 +52,13 @@ class LoginViewModel : ViewModel() {
         val logOnBody = LogOnBody(username, password)
         Coroutines.main {
             isLoading.value = true
-            val response = assistantRepository.logOn(logOnBody)
-            success.value = response.isSuccessful
-            if(success.value == true){
-                saveAssistant(context, response.body()?.User!!)
+            try {
+                val response = assistantRepository.logOn(logOnBody)
+                success.value = true
+                saveAssistant(context, response.User!!)
+            }catch (e: IOException){
+                errorMessage.value = "Invalid credentials"
+                Log.d("logOn", "Error codee: $e")
             }
             isLoading.value = false
         }

@@ -12,27 +12,17 @@ import edu.bluejack23_2.rhangfhindel.networks.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import java.io.IOException
 
 
 class AssistantRepository {
+    suspend fun logOn(logOnBody: LogOnBody): LogOnResponse {
+        var response =  RetrofitClient.getApiService().logOn(logOnBody)
 
-    private val _assistant = MutableLiveData<Assistant>()
-    val assistant: LiveData<Assistant> get() = _assistant
-
-    suspend fun logOn(logOnBody: LogOnBody): Response<LogOnResponse> {
-//        var success: Boolean
-//        withContext(Dispatchers.IO) {
-//            val call = RetrofitClient.getApiService().logOn(logOnBody)
-//            val response = call.execute()
-//            if (!response.isSuccessful) {
-//                success = false
-//                return@withContext
-//            }
-//
-//            _assistant.postValue(response.body()?.User)
-//            success = true
-//        }
-//        return success
-        return RetrofitClient.getApiService().logOn(logOnBody)
+        if(response.isSuccessful){
+            return response.body()!!
+        }else{
+            throw IOException(response.code().toString())
+        }
     }
 }
