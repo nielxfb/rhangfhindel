@@ -57,8 +57,11 @@ class LoginViewModel : ViewModel() {
                 success.value = true
                 saveAssistant(context, response.User!!)
             }catch (e: IOException){
-                errorMessage.value = "Invalid credentials"
-                Log.d("logOn", "Error codee: $e")
+                if(e.toString().contains("401")){
+                    errorMessage.value = "Invalid credentials"
+
+                }
+                Log.d("logOn", e.toString())
             }
             isLoading.value = false
         }
