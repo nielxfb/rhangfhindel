@@ -2,6 +2,8 @@ package edu.bluejack23_2.rhangfhindel.viewmodels
 
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,21 +18,45 @@ import kotlinx.coroutines.launch
 class LoginViewModel : ViewModel() {
     private val assistantRepository = AssistantRepository()
 
-    val assistant: LiveData<Assistant> get() = assistantRepository.assistant
+    var username: String = ""
+    var password: String = ""
 
+    private val assistant: LiveData<Assistant> get() = assistantRepository.assistant
+
+    val errorMessage = MutableLiveData<String>()
     val success = MutableLiveData<Boolean>()
+
+    private fun validateInput() : Boolean{
+        val initialPattern = "^[A-Za-z]{2}\\d{2}-\\d$".toRegex()
+
+        if (username.isEmpty() || password.isEmpty()) {
+            errorMessage.value = "All fields are requried"
+            return false
+        } else if (!username.matches(initialPattern)) {
+            errorMessage.value = "Invalid initial format"
+            return false
+        }
+        return true
+    }
+
     private fun saveAssistant(context: Context) {
         assistant.value?.let { SharedPrefManager.saveAssistant(context, it) }
     }
+    fun onLoginButtonClick(context: Context){
+        if(!validateInput()){
+            return
+        }
 
-    fun logOn(context: Context, username: String, password: String) {
         val logOnBody = LogOnBody(username, password)
         viewModelScope.launch {
             success.value = assistantRepository.logOn(logOnBody)
-            if (success.value == true) {
+            if(success.value == true){
                 saveAssistant(context)
             }
         }
     }
+
+
+
 
 }

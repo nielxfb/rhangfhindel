@@ -24,8 +24,13 @@ android {
         }
     }
 
+    //databinding
     buildFeatures {
         dataBinding true
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     compileOptions {

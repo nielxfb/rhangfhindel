@@ -10,9 +10,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.bluejack23_2.rhangfhindel.base.BaseActivity
+import edu.bluejack23_2.rhangfhindel.databinding.ActivityLoginBinding
 import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 
@@ -21,6 +23,7 @@ class LoginActivity : BaseActivity() {
     private lateinit var usernameInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
+    private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,38 +40,29 @@ class LoginActivity : BaseActivity() {
         passwordInput = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_button)
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
     }
 
     override fun setEvent() {
-        loginButton.setOnClickListener {
-            val username = usernameInput.text.toString()
-            val password = passwordInput.text.toString()
-
-            val initialPattern = "^[A-Za-z]{2}\\d{2}-\\d$".toRegex()
-
-            var error = ""
-            if (username.isEmpty() || password.isEmpty()) {
-                error = "All fields are required"
-            } else if (!username.matches(initialPattern)) {
-                error = "Invalid initial format"
-            }
-
-            if (error.isNotEmpty()) {
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            viewModel.success.observe(this, Observer { success ->
-                if (!success) {
-                    Toast.makeText(this, "Credentials invalid", Toast.LENGTH_SHORT).show()
-                    return@Observer
-                }
-
-                redirect()
-            })
-
-            viewModel.logOn(this, username, password)
+        binding.loginButton.setOnClickListener{
+            viewModel.onLoginButtonClick(this)
         }
+
+        viewModel.success.observe(this, Observer { success ->
+            if(!success){
+                Toast.makeText(this, "Credentials invalid", Toast.LENGTH_SHORT).show()
+                return@Observer
+            }
+
+            redirect()
+        })
+
+        viewModel.errorMessage.observe(this, Observer { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
+
     }
 
     private fun redirect() {
