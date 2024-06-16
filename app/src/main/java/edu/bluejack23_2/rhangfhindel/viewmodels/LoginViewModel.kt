@@ -12,6 +12,7 @@ import edu.bluejack23_2.rhangfhindel.models.APIToken
 import edu.bluejack23_2.rhangfhindel.models.Assistant
 import edu.bluejack23_2.rhangfhindel.modules.LogOnBody
 import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
+import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import kotlinx.coroutines.launch
 
@@ -20,8 +21,6 @@ class LoginViewModel : ViewModel() {
 
     var username: String = ""
     var password: String = ""
-
-    private val assistant: LiveData<Assistant> get() = assistantRepository.assistant
 
     val errorMessage = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>()
@@ -40,8 +39,8 @@ class LoginViewModel : ViewModel() {
         return true
     }
 
-    private fun saveAssistant(context: Context) {
-        assistant.value?.let { SharedPrefManager.saveAssistant(context, it) }
+    private fun saveAssistant(context: Context, assistant: Assistant) {
+        assistant.let { SharedPrefManager.saveAssistant(context, it) }
     }
     fun onLoginButtonClick(context: Context){
         if(!validateInput()){
@@ -49,11 +48,12 @@ class LoginViewModel : ViewModel() {
         }
 
         val logOnBody = LogOnBody(username, password)
-        viewModelScope.launch {
+        Coroutines.main {
             isLoading.value = true
-            success.value = assistantRepository.logOn(logOnBody)
+            val response = assistantRepository.logOn(logOnBody)
+            success.value = response.isSuccessful
             if(success.value == true){
-                saveAssistant(context)
+                saveAssistant(context, response.body()?.User!!)
             }
             isLoading.value = false
         }
