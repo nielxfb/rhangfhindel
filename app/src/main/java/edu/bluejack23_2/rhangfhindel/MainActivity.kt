@@ -2,8 +2,6 @@ package edu.bluejack23_2.rhangfhindel
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 
 class MainActivity : AppCompatActivity() {
 

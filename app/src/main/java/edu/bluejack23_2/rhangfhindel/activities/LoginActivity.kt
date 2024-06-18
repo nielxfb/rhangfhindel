@@ -2,21 +2,16 @@ package edu.bluejack23_2.rhangfhindel.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import edu.bluejack23_2.rhangfhindel.R
-import android.view.Window
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.bluejack23_2.rhangfhindel.base.BaseActivity
 import edu.bluejack23_2.rhangfhindel.databinding.ActivityLoginBinding
-import edu.bluejack23_2.rhangfhindel.repository.AssistantRepository
 import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 
 class LoginActivity : BaseActivity() {
@@ -70,7 +65,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun redirect() {
-        val intent = Intent(this, DashboardActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
         finish()
     }
