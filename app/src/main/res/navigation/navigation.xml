@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/dashboard_fragment"
+    android:id="@+id/navigation">
+
+    <fragment
+        android:id="@+id/dashboard_fragment"
+        android:name="edu.bluejack23_2.rhangfhindel.fragments.DashboardFragment"
+        tools:layout="@layout/fragment_dashboard"
+        />
+
+    <fragment
+        android:id="@+id/room_transaction_fragment"
+        android:name="edu.bluejack23_2.rhangfhindel.fragments.RoomTransactionFragment"
+        tools:layout="@layout/fragment_room_transaction"
+        />
+
+    <fragment
+        android:id="@+id/rang_list_fragment"
+        android:name="edu.bluejack23_2.rhangfhindel.fragments.RangListFragment"
+        tools:layout="@layout/fragment_rang_list"
+        />
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="edu.bluejack23_2.rhangfhindel.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile"
+        />
+
+</navigation>
