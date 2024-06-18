@@ -14,7 +14,7 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        changeStatusBarColor(R.color.light_border_color)
+        changeStatusBarColor(R.color.transparent_background)
         init()
     }
 
