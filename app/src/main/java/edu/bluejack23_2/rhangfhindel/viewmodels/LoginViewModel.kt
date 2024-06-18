@@ -52,7 +52,6 @@ class LoginViewModel : ViewModel() {
             } catch (e: IOException) {
                 if (e.toString().contains("401")) {
                     errorMessage.value = "Invalid credentials"
-
                 }
             }
             isLoading.value = false

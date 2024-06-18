@@ -13,7 +13,7 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    fun provideRetrofit(): Retrofit {
+    private fun provideRetrofit(): Retrofit {
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
