@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bluejack23_2.rhangfhindel.models.Assistant
-import edu.bluejack23_2.rhangfhindel.modules.LogOnBody
+import edu.bluejack23_2.rhangfhindel.modules.requests.LogOnRequest
 import edu.bluejack23_2.rhangfhindel.repositories.AssistantRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
@@ -41,11 +41,11 @@ class LoginViewModel : ViewModel() {
             return
         }
 
-        val logOnBody = LogOnBody(username, password)
+        val logOnRequest = LogOnRequest(username, password)
         Coroutines.main {
             isLoading.value = true
             try {
-                val response = assistantRepository.logOn(logOnBody)
+                val response = assistantRepository.logOn(logOnRequest)
                 success.value = true
                 saveAssistant(context, response.User!!)
             } catch (e: IOException) {

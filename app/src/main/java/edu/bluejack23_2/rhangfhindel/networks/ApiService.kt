@@ -2,7 +2,7 @@ package edu.bluejack23_2.rhangfhindel.networks
 
 import edu.bluejack23_2.rhangfhindel.models.APIToken
 import edu.bluejack23_2.rhangfhindel.models.Assistant
-import edu.bluejack23_2.rhangfhindel.modules.LogOnBody
+import edu.bluejack23_2.rhangfhindel.modules.requests.LogOnRequest
 import edu.bluejack23_2.rhangfhindel.modules.responses.LogOnResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +15,7 @@ interface ApiService {
 
     @POST("Account/LogOnGalaxionRemake")
     suspend fun logOn(
-        @Body logOnBody: LogOnBody
+        @Body logOnRequest: LogOnRequest
     ): Response<LogOnResponse>
 
 }
