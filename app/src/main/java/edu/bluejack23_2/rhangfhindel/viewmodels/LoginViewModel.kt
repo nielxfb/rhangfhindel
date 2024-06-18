@@ -21,6 +21,7 @@ class LoginViewModel : ViewModel() {
     val success = MutableLiveData<Boolean>()
 
     private fun validateInput(): Boolean {
+        errorMessage.value = ""
         val initialPattern = "^[A-Za-z]{2}\\d{2}-\\d$".toRegex()
 
         if (username.isEmpty() || password.isEmpty()) {

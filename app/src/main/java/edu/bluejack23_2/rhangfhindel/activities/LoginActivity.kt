@@ -56,7 +56,9 @@ class LoginActivity : BaseActivity() {
         })
 
         viewModel.errorMessage.observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
         })
 
         viewModel.isLoading.observe(this, Observer { isLoading ->
