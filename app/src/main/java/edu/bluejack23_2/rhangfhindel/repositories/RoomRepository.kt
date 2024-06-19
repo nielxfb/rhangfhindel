@@ -11,10 +11,8 @@ class RoomRepository {
 
     suspend fun getRoomTransactions(): RoomTransactionResponse {
         val response = RetrofitClient.getApiService().getRoomTransactions(
-//            LocalDate.now().format(DateTimeFormatter.ISO_DATE),
-//            LocalDate.now().format(DateTimeFormatter.ISO_DATE),
-            "2024-06-15",
-            "2024-06-15",
+            LocalDate.now().format(DateTimeFormatter.ISO_DATE),
+            LocalDate.now().format(DateTimeFormatter.ISO_DATE),
             true
         )
 
