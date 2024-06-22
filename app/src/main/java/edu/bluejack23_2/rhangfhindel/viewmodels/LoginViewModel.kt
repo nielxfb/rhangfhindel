@@ -11,8 +11,6 @@ import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import java.io.IOException
 
 class LoginViewModel : ViewModel() {
-    private val assistantRepository = AssistantRepository()
-
     var username: String = ""
     var password: String = ""
 
@@ -46,7 +44,7 @@ class LoginViewModel : ViewModel() {
         Coroutines.main {
             isLoading.value = true
             try {
-                val response = assistantRepository.logOn(logOnRequest)
+                val response = AssistantRepository.logOn(logOnRequest)
                 success.value = true
                 saveAssistant(context, response.User!!)
             } catch (e: IOException) {
