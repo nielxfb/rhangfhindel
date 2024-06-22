@@ -28,7 +28,7 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
 
         val roomViewModel = RoomTransactionViewModel()
-        roomViewModel.onLoad(true)
+        roomViewModel.onLoad(fetchRang = true, fetchAlternatives = true)
 
         init()
         setEvent()
