@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "73530784561",
+    "firebase_url": "https://rhang-fhindel-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rhang-fhindel",
+    "storage_bucket": "rhang-fhindel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73530784561:android:7cea64c37d9e70ccd20e10",
+        "android_client_info": {
+          "package_name": "edu.bluejack23_2.rhangfhindel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSIn4ivU7KVH1HHECkx70yvP_fKBFD6aM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
