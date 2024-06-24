@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.LoginFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/username_input"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/username_placeholder"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="@={viewmodel.username}"
+                android:textFontWeight="700" />
+
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/password_placeholder"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:text="@={viewmodel.password}"
+                android:textFontWeight="700" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_login"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textFontWeight="700"
+                android:textSize="14sp"
+                app:backgroundTint="@color/accent_background" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+</layout>
