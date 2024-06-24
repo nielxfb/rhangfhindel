@@ -1,7 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import edu.bluejack23_2.rhangfhindel.databinding.FragmentAvailableRangBinding
 import edu.bluejack23_2.rhangfhindel.databinding.RecyclerViewRoomBinding
 import edu.bluejack23_2.rhangfhindel.databinding.ScheduleLayoutBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
-import edu.bluejack23_2.rhangfhindel.models.StatusDetail
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class AvailableRangFragment : Fragment() {
@@ -27,7 +25,6 @@ class AvailableRangFragment : Fragment() {
     private lateinit var recyclerViewRoomBinding: RecyclerViewRoomBinding
     private lateinit var scheduleLayoutBinding: ScheduleLayoutBinding
     private lateinit var roomAdapter: RoomAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
