@@ -17,9 +17,3 @@ data class StatusDetail(
     val TransactionId: String?,
     val Type: String?
 )
-
-data class Detail(
-    val Campus: String,
-    val RoomName: String,
-    val StatusDetails: List<List<StatusDetail>>
-)
