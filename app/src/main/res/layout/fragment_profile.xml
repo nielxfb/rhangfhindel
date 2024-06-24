@@ -77,8 +77,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logout_button"
-            android:layout_width="157dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Log out"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -92,4 +92,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
-
