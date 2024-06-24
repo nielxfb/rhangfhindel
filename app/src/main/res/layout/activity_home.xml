@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_highlight"
     tools:context=".activities.HomeActivity">
 
     <fragment
@@ -19,9 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/navigation_bar"
-        app:labelVisibilityMode="unlabeled" />
-
-    />
+        app:itemIconTint="@color/nav_item_color"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/navigation_bar" />
 
 </RelativeLayout>

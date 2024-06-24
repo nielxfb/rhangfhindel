@@ -32,14 +32,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Schedule" />
+                    android:text="@string/schedule" />
 
                 <GridLayout
                     android:id="@+id/grid_layout_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:rowCount="2"
-                    android:columnCount="3"></GridLayout>
+                    android:columnCount="3" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
