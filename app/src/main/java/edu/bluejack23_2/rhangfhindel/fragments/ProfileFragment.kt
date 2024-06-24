@@ -10,11 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
-import edu.bluejack23_2.rhangfhindel.BuildConfig
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.LoginActivity
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentProfileBinding
-import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import edu.bluejack23_2.rhangfhindel.viewmodels.ProfileViewModel
 
 class ProfileFragment : Fragment() {
