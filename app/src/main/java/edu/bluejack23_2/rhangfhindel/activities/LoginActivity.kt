@@ -1,79 +1,64 @@
 package edu.bluejack23_2.rhangfhindel.activities
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import edu.bluejack23_2.rhangfhindel.R
-import android.widget.Button
-import android.widget.EditText
-import androidx.databinding.DataBindingUtil
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.base.BaseActivity
 import edu.bluejack23_2.rhangfhindel.databinding.ActivityLoginBinding
-import edu.bluejack23_2.rhangfhindel.utils.PopUp
+import edu.bluejack23_2.rhangfhindel.factories.LoginViewModelFactory
+import edu.bluejack23_2.rhangfhindel.fragments.LoggedInFragment
+import edu.bluejack23_2.rhangfhindel.fragments.LoginFragment
 import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class LoginActivity : BaseActivity() {
 
-    private lateinit var usernameInput: EditText
-    private lateinit var passwordInput: EditText
-    private lateinit var loginButton: Button
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
+    private lateinit var loginFragment: LoginFragment
+    private lateinit var loggedInFragment: LoggedInFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val roomViewModel = RoomTransactionViewModel()
-        roomViewModel.onLoad(true)
+        roomViewModel.onLoad(fetchRang = true, fetchAlternatives = true)
 
         init()
+
         setEvent()
         changeStatusBarColor(R.color.primary_color)
     }
 
     override fun init() {
-        usernameInput = findViewById(R.id.username_input)
-        passwordInput = findViewById(R.id.password_input)
-        loginButton = findViewById(R.id.login_button)
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        binding.lifecycleOwner = this
-        binding.viewmodel = viewModel
-    }
+        loginFragment = LoginFragment()
+        loggedInFragment = LoggedInFragment()
 
-    override fun setEvent() {
-        binding.loginButton.setOnClickListener {
-            viewModel.onLoginButtonClick(this)
+        supportFragmentManager.beginTransaction().replace(R.id.login_container, loginFragment)
+            .commit()
+
+        initViewModel()
+
+        viewModel.assistant.observeForever { assistant ->
+            if (assistant == null) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.login_container, loginFragment).commit()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.login_container, loggedInFragment).commit()
+            }
         }
-
-        viewModel.success.observe(this, Observer { success ->
-            if (!success) {
-                PopUp.shortDuration(this, "Credentials invalid!")
-                return@Observer
-            }
-
-            PopUp.shortDuration(this, "Login success!")
-            redirect()
-        })
-
-        viewModel.errorMessage.observe(this, Observer { message ->
-            if (message.isNotEmpty()) {
-                PopUp.shortDuration(this, message)
-            }
-        })
-
-        viewModel.isLoading.observe(this, Observer { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        })
     }
 
-    private fun redirect() {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        finish()
+    override fun setEvent() {}
+
+    private fun initViewModel() {
+        val factory = LoginViewModelFactory(this)
+        viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
     }
+
 }

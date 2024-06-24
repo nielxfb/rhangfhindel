@@ -8,11 +8,10 @@ import edu.bluejack23_2.rhangfhindel.BuildConfig
 import edu.bluejack23_2.rhangfhindel.models.Assistant
 
 object SharedPrefManager {
-    // TODO: jangan lupa pindahin ke env
-
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(BuildConfig.SHARED_PREF_KEY, Context.MODE_PRIVATE)
     }
+
     fun saveAssistant(context: Context, assistant: Assistant) {
         val sharedPreferences = getSharedPreferences(context)
         val editor = sharedPreferences.edit()
@@ -35,6 +34,5 @@ object SharedPrefManager {
         editor.remove(BuildConfig.ASSISTANT_KEY)
         editor.apply()
     }
-
 
 }

@@ -6,23 +6,21 @@ import androidx.lifecycle.ViewModel
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
-import kotlinx.coroutines.awaitAll
-import okhttp3.internal.wait
+
 
 class RoomTransactionViewModel : ViewModel() {
-    private val roomRepository = RoomRepository()
 
     val errorMessage = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>()
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
 
-    fun onLoad(fetchRang: Boolean) {
+    fun onLoad(fetchRang: Boolean, fetchAlternatives: Boolean) {
         errorMessage.value = ""
         Coroutines.main {
             isLoading.value = true
             try {
-                val response = roomRepository.getRoomTransactions()
+                val response = RoomRepository.getRoomTransactions()
 
                 if (fetchRang) {
                     roomTransactions.value = getAvailableRangs(response.Details
@@ -32,7 +30,16 @@ class RoomTransactionViewModel : ViewModel() {
                         .filter { it.Campus == "ANGGREK" }
                 }
 
-                Log.d("activerangxixi", "Ini dalam onload ${roomTransactions.value}")
+                if (fetchAlternatives) {
+                    Log.d("Alternatives", "MASUK")
+                    Log.d(
+                        "Alternatives", "${
+                            getAlternativeRangs(response.Details
+                                .filter { it.Campus == "ANGGREK" })
+                        }"
+                    )
+                }
+
                 success.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.toString()
@@ -42,14 +49,16 @@ class RoomTransactionViewModel : ViewModel() {
     }
 
     private fun getAvailableRangs(roomTransactions: List<Detail>): List<Detail> {
-        val activeIndices = setOf(1, 3, 5, 7, 9, 11)
+        val activeIndices = setOf<Int>(1, 3, 5, 7, 9, 11)
         val activeRangs = mutableListOf<Detail>()
 
         for (detail in roomTransactions) {
             val statusDetail = detail.StatusDetails
 
             val allIndicesEmpty = activeIndices.all { index ->
-                index < statusDetail.size && statusDetail[index].isEmpty()
+                index < statusDetail.size &&
+                        (statusDetail[index].isEmpty()
+                                || statusDetail[index][0].Status == "C")
             }
 
             if (allIndicesEmpty) {
@@ -60,10 +69,42 @@ class RoomTransactionViewModel : ViewModel() {
         return activeRangs
     }
 
-    fun getRoomTransactions() {
-//        if (!onLoad()) return
+    private fun getAlternativeRangs(roomTransactions: List<Detail>): List<Detail> {
+        val alternativeRangs = mutableListOf<Detail>()
 
+        for (detail in roomTransactions) {
+            val statusDetail = detail.StatusDetails
 
+            fun areFollowingIndicesValid(startIndex: Int): Boolean {
+                val oddIndices = listOf(1, 3, 5, 7, 9, 11)
+                val startPosition = oddIndices.indexOf(startIndex)
+
+                for (i in startPosition until oddIndices.size) {
+                    val index = oddIndices[i]
+                    if (!(statusDetail[index].isEmpty() || statusDetail[index][0].Status == "C")) {
+                        return false
+                    }
+                }
+                return true
+            }
+
+            val isValidRang =
+                (statusDetail[1].isNotEmpty() && statusDetail[1][0].Status != "C" && areFollowingIndicesValid(
+                    3
+                )) ||
+                        (statusDetail[3].isNotEmpty() && statusDetail[3][0].Status != "C" && areFollowingIndicesValid(
+                            5
+                        )) ||
+                        (statusDetail[5].isNotEmpty() && statusDetail[5][0].Status != "C" && areFollowingIndicesValid(
+                            7
+                        ))
+
+            if (isValidRang) {
+                alternativeRangs.add(detail)
+            }
+        }
+
+        return alternativeRangs
     }
 
 }

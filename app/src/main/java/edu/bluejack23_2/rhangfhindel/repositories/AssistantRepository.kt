@@ -5,7 +5,7 @@ import edu.bluejack23_2.rhangfhindel.modules.responses.LogOnResponse
 import edu.bluejack23_2.rhangfhindel.networks.RetrofitClient
 import java.io.IOException
 
-class AssistantRepository {
+object AssistantRepository {
     suspend fun logOn(logOnRequest: LogOnRequest): LogOnResponse {
         val response = RetrofitClient.getApiService().logOn(logOnRequest)
 
