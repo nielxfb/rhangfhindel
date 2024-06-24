@@ -5,7 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableLayout
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.Picasso
 import edu.bluejack23_2.rhangfhindel.R
+import edu.bluejack23_2.rhangfhindel.adapters.FragmentPageAdapter
+import edu.bluejack23_2.rhangfhindel.databinding.FragmentProfileBinding
+import edu.bluejack23_2.rhangfhindel.databinding.FragmentRoomTransactionBinding
+import edu.bluejack23_2.rhangfhindel.viewmodels.ProfileViewModel
+import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +34,13 @@ class RoomTransactionFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var tabLayout: TabLayout
+    lateinit var viewPager2: ViewPager2
+    lateinit var adapter: FragmentPageAdapter
+
+    private lateinit var viewModel: RoomTransactionViewModel
+    private lateinit var binding: FragmentRoomTransactionBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,9 +53,99 @@ class RoomTransactionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_room_transaction, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_room_transaction, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(RoomTransactionViewModel::class.java)
+
+        setupViews()
+        observeViewModel()
+    }
+
+    private fun setupViews() {
+        binding.apply {
+            viewPager2.adapter = FragmentPageAdapter(childFragmentManager, lifecycle)
+
+            TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+                tab.text = if (position == 0) "Available Rang" else "Room Transactions"
+            }.attach()
+
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.let {
+                        viewPager2.currentItem = it.position
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
+            })
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.apply {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                // Handle isLoading state (show/hide progress)
+                // Example: progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+
+            errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+                // Handle error message
+                // Example: Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+            success.observe(viewLifecycleOwner) { success ->
+                // Handle success state if needed
+            }
+
+            roomTransactions.observe(viewLifecycleOwner) { transactions ->
+                // Update UI with roomTransactions data
+                // Example: adapter.submitList(transactions)
+            }
+        }
+    }
+
+//    fun init(inflater: LayoutInflater, container: ViewGroup?): View {
+//        val binding: FragmentRoomTransactionBinding = DataBindingUtil.inflate(
+//            inflater, R.layout.fragment_room_transaction, container, false
+//        )
+//
+//        viewModel = ViewModelProvider(this).get(RoomTransactionViewModel::class.java)
+//
+//        tabLayout = binding.tabLayout
+//        viewPager2 = binding.viewPager2
+//
+//        adapter = FragmentPageAdapter(childFragmentManager, lifecycle)
+//
+//        tabLayout.addTab(tabLayout.newTab().setText("Available Rang"))
+//        tabLayout.addTab(tabLayout.newTab().setText("Room Transactions"))
+//
+//        viewPager2.adapter = adapter
+//
+//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                if (tab != null) {
+//                    viewPager2.post {
+//                        viewPager2.currentItem = tab.position
+//                    }
+//                }
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//        })
+//
+//        return binding.root
+//    }
 
     companion object {
         /**
