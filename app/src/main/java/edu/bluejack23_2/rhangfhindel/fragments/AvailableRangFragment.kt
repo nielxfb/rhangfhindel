@@ -1,60 +1,96 @@
 package edu.bluejack23_2.rhangfhindel.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
+import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
+import edu.bluejack23_2.rhangfhindel.databinding.FragmentAvailableRangBinding
+import edu.bluejack23_2.rhangfhindel.databinding.RecyclerViewRoomBinding
+import edu.bluejack23_2.rhangfhindel.databinding.ScheduleLayoutBinding
+import edu.bluejack23_2.rhangfhindel.models.Detail
+import edu.bluejack23_2.rhangfhindel.models.StatusDetail
+import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AvailableRangFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AvailableRangFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var viewModel: RoomTransactionViewModel
+    private lateinit var availableRangBinding: FragmentAvailableRangBinding
+    private lateinit var recyclerViewRoomBinding: RecyclerViewRoomBinding
+    private lateinit var scheduleLayoutBinding: ScheduleLayoutBinding
+    private lateinit var roomAdapter: RoomAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_available_rang, container, false)
+        availableRangBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_available_rang, container, false)
+        recyclerViewRoomBinding =
+            DataBindingUtil.inflate(inflater, R.layout.recycler_view_room, container, false)
+        scheduleLayoutBinding =
+            DataBindingUtil.inflate(inflater, R.layout.schedule_layout, container, false)
+        return availableRangBinding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AvailableRangFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AvailableRangFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
+        viewModel.onLoad(true)
+
+        initRecyclerView()
+        observeViewModel()
+    }
+
+    private fun initRecyclerView() {
+        val recyclerView = availableRangBinding.recyclerViewRangList
+        roomAdapter = RoomAdapter(emptyList()) // Initialize with an empty list
+        recyclerView.adapter = roomAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun observeViewModel() {
+        viewModel.apply {
+            roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
+                roomAdapter.updateRooms(rooms)
+            })
+        }
+    }
+
+    private fun populateSchedule(rooms: List<Detail>) {
+
+
+        val gridLayout = recyclerViewRoomBinding.gridLayoutSchedule
+        gridLayout.removeAllViews()
+
+        for (i in 1..11 step 2) {
+            val scheduleView = LayoutInflater.from(requireActivity())
+                .inflate(
+                    R.layout.schedule_layout,
+                    gridLayout,
+                    false
+                )
+
+            val scheduleTextView = scheduleLayoutBinding.textViewSchedule
+            scheduleTextView.text = "TESTES"
+
+            val params = GridLayout.LayoutParams().apply {
+                width = GridLayout.LayoutParams.WRAP_CONTENT
+                height = GridLayout.LayoutParams.WRAP_CONTENT
             }
+
+            gridLayout.addView(scheduleTextView, params)
+        }
     }
 }

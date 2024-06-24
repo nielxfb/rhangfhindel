@@ -3,7 +3,7 @@ package edu.bluejack23_2.rhangfhindel.viewmodels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import edu.bluejack23_2.rhangfhindel.modules.responses.Detail
+import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import kotlinx.coroutines.awaitAll

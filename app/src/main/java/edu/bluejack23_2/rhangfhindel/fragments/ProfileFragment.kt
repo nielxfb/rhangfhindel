@@ -46,12 +46,12 @@ class ProfileFragment : Fragment() {
         return init(inflater, container)
     }
 
-    fun init(inflater: LayoutInflater, container: ViewGroup?) : View {
+    fun init(inflater: LayoutInflater, container: ViewGroup?): View {
         val binding: FragmentProfileBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_profile, container, false
         )
 
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         viewModel.init(requireContext())
 
