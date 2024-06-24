@@ -44,7 +44,7 @@ class AvailableRangFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(true)
+        viewModel.onLoad(true, true)
 
         initRecyclerView()
         observeViewModel()
