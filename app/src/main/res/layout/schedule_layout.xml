@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_view_schedule"
+            android:layout_width="match_parent"
+            android:textSize="9sp"
+            android:background="@drawable/schedule_text_background_blue"
+            android:textColor="@color/primary_color"
+            android:textAlignment="center"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</layout>

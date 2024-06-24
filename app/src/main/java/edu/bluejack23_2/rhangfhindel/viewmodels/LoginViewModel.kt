@@ -1,6 +1,7 @@
 package edu.bluejack23_2.rhangfhindel.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,8 +59,11 @@ class LoginViewModel(private val context: Context) : ViewModel() {
                 success.value = true
                 saveAssistant(response.User!!)
             } catch (e: IOException) {
+                Log.d("Exception", e.toString())
                 if (e.toString().contains("401")) {
                     errorMessage.value = "Invalid credentials"
+                } else if (e.toString().contains("UnknownHostException")) {
+                    errorMessage.value = "502 BAD GATEWAY"
                 }
             }
             isLoading.value = false

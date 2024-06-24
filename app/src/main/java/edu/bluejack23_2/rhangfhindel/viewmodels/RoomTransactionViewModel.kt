@@ -2,11 +2,13 @@ package edu.bluejack23_2.rhangfhindel.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import edu.bluejack23_2.rhangfhindel.modules.responses.Detail
+import androidx.lifecycle.ViewModel
+import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 
-class RoomTransactionViewModel {
+
+class RoomTransactionViewModel : ViewModel() {
 
     val errorMessage = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>()
