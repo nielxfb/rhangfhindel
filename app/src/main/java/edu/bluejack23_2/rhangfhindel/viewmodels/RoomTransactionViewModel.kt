@@ -24,10 +24,10 @@ class RoomTransactionViewModel : ViewModel() {
 
                 if (fetchRang) {
                     roomTransactions.value = getAvailableRangs(response.Details
-                        .filter { it.Campus == "ANGGREK" })
+                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") })
                 } else {
                     roomTransactions.value = response.Details
-                        .filter { it.Campus == "ANGGREK" }
+                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
                 }
 
                 if (fetchAlternatives) {
