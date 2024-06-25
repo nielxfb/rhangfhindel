@@ -33,10 +33,6 @@ class AvailableRangFragment : Fragment() {
         // Inflate the layout for this fragment
         availableRangBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_available_rang, container, false)
-        recyclerViewRoomBinding =
-            DataBindingUtil.inflate(inflater, R.layout.recycler_view_room, container, false)
-        scheduleLayoutBinding =
-            DataBindingUtil.inflate(inflater, R.layout.schedule_layout, container, false)
         return availableRangBinding.root
     }
 
@@ -62,32 +58,6 @@ class AvailableRangFragment : Fragment() {
             roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
             })
-        }
-    }
-
-    private fun populateSchedule(rooms: List<Detail>) {
-
-
-        val gridLayout = recyclerViewRoomBinding.gridLayoutSchedule
-        gridLayout.removeAllViews()
-
-        for (i in 1..11 step 2) {
-            val scheduleView = LayoutInflater.from(requireActivity())
-                .inflate(
-                    R.layout.schedule_layout,
-                    gridLayout,
-                    false
-                )
-
-            val scheduleTextView = scheduleLayoutBinding.textViewSchedule
-            scheduleTextView.text = "TESTES"
-
-            val params = GridLayout.LayoutParams().apply {
-                width = GridLayout.LayoutParams.WRAP_CONTENT
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-            }
-
-            gridLayout.addView(scheduleTextView, params)
         }
     }
 }
