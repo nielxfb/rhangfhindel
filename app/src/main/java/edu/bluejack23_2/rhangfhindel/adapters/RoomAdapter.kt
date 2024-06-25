@@ -32,7 +32,7 @@ class RoomAdapter(
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = rooms[position]
         holder.bind(room)
-        populateSchedule(holder.binding)
+        populateSchedule(holder.binding, room)
     }
 
     fun getTimeString(hour: Int, minute: Int): String {
@@ -43,7 +43,9 @@ class RoomAdapter(
         return SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
     }
 
-    private fun populateSchedule(binding: RecyclerViewRoomBinding) {
+    private fun populateSchedule(binding: RecyclerViewRoomBinding, room: Detail) {
+        val statusDetails = room.StatusDetails
+
         val gridLayout = binding.gridLayoutSchedule
         gridLayout.removeAllViews()
 
@@ -65,12 +67,21 @@ class RoomAdapter(
             scheduleTextView.text =
                 "Shift ${shift} (${getTimeString(startHour, 0)} - ${getTimeString(endHour, 0)})"
 
+            var backgroundColor =
+                if (statusDetails[i].isEmpty()) R.drawable.schedule_text_background_blue else R.drawable.schedule_text_background_red
+
+            var textColor =
+                if (statusDetails[i].isEmpty()) R.color.primary_color else R.color.red
+
+            scheduleTextView.setBackgroundResource(backgroundColor)
+            scheduleTextView.setTextColor(scheduleView.context.resources.getColor(textColor))
+
             val params = GridLayout.LayoutParams().apply {
                 width = GridLayout.LayoutParams.WRAP_CONTENT
                 height = GridLayout.LayoutParams.WRAP_CONTENT
                 rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(3, 3, 3, 3)
+                setMargins(5, 5, 5, 5)
             }
 
             gridLayout.addView(scheduleView, params)
