@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class RoomTransactionViewModel : ViewModel() {
@@ -14,6 +16,8 @@ class RoomTransactionViewModel : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
+    val rangs = MutableLiveData<List<Detail>>()
+    val alternatives = MutableLiveData<List<Detail>>()
 
     fun onLoad(fetchRang: Boolean, fetchAlternatives: Boolean) {
         errorMessage.value = ""
@@ -22,8 +26,10 @@ class RoomTransactionViewModel : ViewModel() {
             try {
                 val response = RoomRepository.getRoomTransactions()
 
+                Log.d("Fetching", "Ini response: ${response.Details}")
+
                 if (fetchRang) {
-                    roomTransactions.value = getAvailableRangs(response.Details
+                    rangs.value = getAvailableRangs(response.Details
                         .filter { it.Campus == "ANGGREK" })
                 } else {
                     roomTransactions.value = response.Details
@@ -31,14 +37,11 @@ class RoomTransactionViewModel : ViewModel() {
                 }
 
                 if (fetchAlternatives) {
-                    Log.d("Alternatives", "MASUK")
-                    Log.d(
-                        "Alternatives", "${
-                            getAlternativeRangs(response.Details
-                                .filter { it.Campus == "ANGGREK" })
-                        }"
-                    )
+                    alternatives.value = getAlternativeRangs(response.Details
+                        .filter { it.Campus == "ANGGREK" })
                 }
+
+                Log.d("Fetching", "Selesai fetch")
 
                 success.value = true
             } catch (e: Exception) {
@@ -49,7 +52,7 @@ class RoomTransactionViewModel : ViewModel() {
     }
 
     private fun getAvailableRangs(roomTransactions: List<Detail>): List<Detail> {
-        val activeIndices = setOf<Int>(1, 3, 5, 7, 9, 11)
+        val activeIndices = setOf(1, 3, 5, 7, 9, 11)
         val activeRangs = mutableListOf<Detail>()
 
         for (detail in roomTransactions) {

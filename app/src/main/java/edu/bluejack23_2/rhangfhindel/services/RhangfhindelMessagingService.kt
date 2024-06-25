@@ -14,8 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.LoginActivity
-import edu.bluejack23_2.rhangfhindel.modules.responses.SaveTokenResponse
-import edu.bluejack23_2.rhangfhindel.repositories.TokenRepository
+import edu.bluejack23_2.rhangfhindel.repositories.NotificationRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 
 class RhangfhindelMessagingService : FirebaseMessagingService() {
@@ -25,7 +24,7 @@ class RhangfhindelMessagingService : FirebaseMessagingService() {
 
         Coroutines.main {
             try {
-                TokenRepository.saveToken(token)
+                NotificationRepository.saveToken(token)
             } catch (exception: Exception) {
                 Log.e("FCM", "Token missing")
                 return@main
@@ -58,6 +57,8 @@ class RhangfhindelMessagingService : FirebaseMessagingService() {
 
     @SuppressLint("UnspecifiedImmutableFlag")
     fun generateNotification(title: String, description: String) {
+        Log.d("FCM", "Generating notification with title: $title and description: $description")
+        createNotificationChannel()
 
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -79,17 +80,24 @@ class RhangfhindelMessagingService : FirebaseMessagingService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                getString(R.string.notification_channel_id),
-                getString(R.string.notification_channel_name),
-                NotificationManager.IMPORTANCE_HIGH
-            )
-
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-
+        Log.d("FCM", "Setup completed")
         notificationManager.notify(0, builder.build())
+        Log.d("FCM", "Notif display")
     }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = getString(R.string.notification_channel_id)
+            val channelName = getString(R.string.notification_channel_name)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = "Channel description"
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
 
 }

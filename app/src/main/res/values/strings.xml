@@ -8,6 +8,6 @@
     <string name="schedule">Schedule</string>
     <string name="setup_biometrics_login">Setup Biometrics Login</string>
     <string name="notification_channel_id">rhangfhindel_notification_channel</string>
-    <string name="notification_channel_name">edu.bluejack23_2.rhangfhindel.services</string>
+    <string name="notification_channel_name">Rang Notification</string>
     <string name="msg_token_fmt">nice</string>
 </resources>
