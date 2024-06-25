@@ -70,7 +70,7 @@ class RoomAdapter(
                 height = GridLayout.LayoutParams.WRAP_CONTENT
                 rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(2, 2, 2, 2)
+                setMargins(3, 3, 3, 3)
             }
 
             gridLayout.addView(scheduleView, params)
