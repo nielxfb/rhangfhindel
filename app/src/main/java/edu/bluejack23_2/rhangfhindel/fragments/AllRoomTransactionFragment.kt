@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAllRoomTransactionBinding
-import edu.bluejack23_2.rhangfhindel.databinding.FragmentAvailableRangBinding
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class AllRoomTransactionFragment : Fragment() {
@@ -39,15 +38,16 @@ class AllRoomTransactionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(false, false)
+        viewModel.onLoad(false, false, null, null)
 
         initRecyclerView()
+
         observeViewModel()
     }
 
     private fun initRecyclerView() {
         val recyclerView = allRoomTransactionBinding.recyclerViewAllRoomList
-        roomAdapter = RoomAdapter(emptyList())
+        roomAdapter = RoomAdapter(false, emptyList(), viewModel)
         recyclerView.adapter = roomAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

@@ -1,5 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.adapters
 
+import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.GridLayout
@@ -7,14 +8,18 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import edu.bluejack23_2.rhangfhindel.R
+import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.RecyclerViewRoomBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
+import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class RoomAdapter(
-    private var rooms: List<Detail>
+    private var rang: Boolean,
+    private var rooms: List<Detail>,
+    private val viewModel: RoomTransactionViewModel,
 ) : RecyclerView.Adapter<RoomAdapter.RoomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
@@ -32,8 +37,14 @@ class RoomAdapter(
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = rooms[position]
         holder.bind(room)
+        if (rang) {
+            holder.binding.root.setOnClickListener {
+                viewModel.showRangModal(room.RoomName)
+            }
+        }
         populateSchedule(holder.binding, room)
     }
+
 
     fun getTimeString(hour: Int, minute: Int): String {
         val calendar = Calendar.getInstance().apply {

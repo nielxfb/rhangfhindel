@@ -1,8 +1,10 @@
 package edu.bluejack23_2.rhangfhindel.viewmodels
 
+import android.app.Dialog
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
@@ -15,7 +17,23 @@ class RoomTransactionViewModel : ViewModel() {
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
 
-    fun onLoad(fetchRang: Boolean, fetchAlternatives: Boolean) {
+    lateinit var modal: Dialog
+    lateinit var modalBinding: BookModalBinding
+
+    fun onLoad(
+        fetchRang: Boolean,
+        fetchAlternatives: Boolean,
+        modal: Dialog?,
+        modalBinding: BookModalBinding?
+    ) {
+
+        if (modal != null) {
+            this.modal = modal
+        }
+        if (modalBinding != null) {
+            this.modalBinding = modalBinding
+        }
+
         errorMessage.value = ""
         Coroutines.main {
             isLoading.value = true
@@ -105,6 +123,15 @@ class RoomTransactionViewModel : ViewModel() {
         }
 
         return alternativeRangs
+    }
+
+    fun showRangModal(roomName: String) {
+        modalBinding.textViewDialog.text = "Do you want to book Room ${roomName}?"
+        modal.show()
+    }
+
+    fun closeModal() {
+        modal.dismiss()
     }
 
 }

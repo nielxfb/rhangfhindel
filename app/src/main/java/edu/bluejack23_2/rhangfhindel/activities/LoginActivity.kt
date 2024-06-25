@@ -1,8 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.activities
 
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.base.BaseActivity
@@ -24,9 +22,6 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val roomViewModel = RoomTransactionViewModel()
-        roomViewModel.onLoad(fetchRang = true, fetchAlternatives = true)
 
         init()
 
