@@ -20,8 +20,8 @@ class RoomTransactionViewModel : ViewModel() {
     val alternatives = MutableLiveData<List<Detail>>()
 
     fun onLoad(fetchRang: Boolean, fetchAlternatives: Boolean) {
-        errorMessage.value = ""
         Coroutines.main {
+            errorMessage.value = ""
             isLoading.value = true
             try {
                 val response = RoomRepository.getRoomTransactions()

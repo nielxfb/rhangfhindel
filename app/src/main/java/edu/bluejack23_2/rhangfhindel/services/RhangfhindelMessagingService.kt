@@ -10,21 +10,35 @@ import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.LoginActivity
+import edu.bluejack23_2.rhangfhindel.factories.LoginViewModelFactory
 import edu.bluejack23_2.rhangfhindel.repositories.NotificationRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
+import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
+import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 
 class RhangfhindelMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
+        val assistant = SharedPrefManager.getAssistant(applicationContext)
+
+        if (assistant == null) {
+            Log.e("FCM", "Assistant not logged in")
+            return
+        }
+
+        val initial = assistant.Username
+        val generation = initial.substring(2)
+
         Coroutines.main {
             try {
-                NotificationRepository.saveToken(token)
+                NotificationRepository.saveToken(token, generation)
             } catch (exception: Exception) {
                 Log.e("FCM", "Token missing")
                 return@main

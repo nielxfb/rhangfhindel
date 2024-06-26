@@ -36,8 +36,6 @@ class LoginActivity : BaseActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        saveToken()
-
         init()
         scheduleAlarm()
 
@@ -72,29 +70,6 @@ class LoginActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
     }
 
-    private fun saveToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e("FCM", "Fetching FCM token failed")
-                return@addOnCompleteListener
-            }
-
-            val token = task.result
-            Log.d("FCM", "Ini token di Login $token")
-
-            Coroutines.main {
-                try {
-                    NotificationRepository.saveToken(token)
-                } catch (exception: Exception) {
-                    Log.e("FCM", "Token missing di Login ${exception.message}")
-                    return@main
-                }
-
-                Log.d("FCM", "Token successfuly uploaded")
-            }
-        }
-    }
-
     private fun scheduleAlarm() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -109,14 +84,13 @@ class LoginActivity : BaseActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 55)
+            set(Calendar.HOUR_OF_DAY, 11)
+            set(Calendar.MINUTE, 26)
         }
 
-        alarmManager.setInexactRepeating(
+        alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
             pendingIntent
         )
     }

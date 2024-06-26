@@ -8,9 +8,10 @@ import edu.bluejack23_2.rhangfhindel.networks.ServerRetrofitClient
 
 object NotificationRepository {
 
-    suspend fun saveToken(token: String): SaveTokenResponse {
+    suspend fun saveToken(token: String, generation: String): SaveTokenResponse {
         Log.d("FCM", "$token di saveToken")
-        val response = ServerRetrofitClient.getApiService().saveToken(SaveTokenRequest(token))
+        val response =
+            ServerRetrofitClient.getApiService().saveToken(SaveTokenRequest(token, generation))
 
         if (response.isSuccessful) {
             return response.body()!!
@@ -19,9 +20,10 @@ object NotificationRepository {
         }
     }
 
-    suspend fun sendNotification(title: String, body: String) {
+    suspend fun sendNotification(title: String, body: String, onlyForGeneration: String) {
         val response =
-            ServerRetrofitClient.getApiService().sendNotification(NotificationRequest(title, body))
+            ServerRetrofitClient.getApiService()
+                .sendNotification(NotificationRequest(title, body, onlyForGeneration))
 
         if (response.isSuccessful) {
             Log.d("FCM", "Notification sent successfully")
