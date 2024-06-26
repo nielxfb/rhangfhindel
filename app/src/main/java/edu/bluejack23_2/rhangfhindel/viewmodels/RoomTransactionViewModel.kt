@@ -23,7 +23,7 @@ class RoomTransactionViewModel : ViewModel() {
     val roomTransactions = MutableLiveData<List<Detail>>()
     val rangs = MutableLiveData<List<Detail>>()
     val alternatives = MutableLiveData<List<Detail>>()
-    var redirectRoom = MutableLiveData<Detail>()
+    var redirectRoom = MutableLiveData<Detail?>()
 
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
@@ -35,6 +35,8 @@ class RoomTransactionViewModel : ViewModel() {
         modal: Dialog?,
         modalBinding: BookModalBinding?,
     ) {
+
+        redirectRoom.value = null
 
         if (modal != null) {
             this.modal = modal
