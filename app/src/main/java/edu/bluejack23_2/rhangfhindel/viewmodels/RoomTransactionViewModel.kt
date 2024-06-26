@@ -10,8 +10,10 @@ import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.models.StatusDetail
+import edu.bluejack23_2.rhangfhindel.repositories.FirebaseRepository
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
+import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,9 +26,11 @@ class RoomTransactionViewModel : ViewModel() {
     val rangs = MutableLiveData<List<Detail>>()
     val alternatives = MutableLiveData<List<Detail>>()
     var redirectRoom = MutableLiveData<Detail?>()
+    var message = MutableLiveData<String>()
 
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
+    lateinit var currRoom: Detail
 
 
     fun onLoad(
@@ -142,6 +146,19 @@ class RoomTransactionViewModel : ViewModel() {
 
     fun closeModal() {
         modal.dismiss()
+    }
+
+    fun bookRang(context: Context) {
+        Coroutines.main {
+            isLoading.value = true
+            FirebaseRepository.addBooker(
+                currRoom.RoomName,
+                SharedPrefManager.getAssistant(context)!!.Username
+            )
+            isLoading.value = false
+            closeModal()
+            message.value = "Successfully Booked Room ${currRoom.RoomName}"
+        }
     }
 
 }

@@ -40,6 +40,7 @@ class RoomAdapter(
         if (rang) {
             holder.binding.root.setOnClickListener {
                 viewModel.showRangModal(room.RoomName)
+                viewModel.currRoom = room
             }
         } else {
             holder.binding.root.setOnClickListener {

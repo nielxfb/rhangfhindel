@@ -16,6 +16,7 @@ import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAvailableRangBinding
 import edu.bluejack23_2.rhangfhindel.databinding.RecyclerViewRoomBinding
 import edu.bluejack23_2.rhangfhindel.databinding.ScheduleLayoutBinding
+import edu.bluejack23_2.rhangfhindel.utils.PopUp
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class AvailableRangFragment : Fragment() {
@@ -58,6 +59,9 @@ class AvailableRangFragment : Fragment() {
         modalBinding.buttonCancel.setOnClickListener {
             viewModel.closeModal()
         }
+        modalBinding.buttonYes.setOnClickListener {
+            viewModel.bookRang(requireContext())
+        }
     }
 
     private fun initModal() {
@@ -88,6 +92,13 @@ class AvailableRangFragment : Fragment() {
                 availableRangBinding.progressBar.visibility =
                     if (isLoading.value!!) View.VISIBLE else View.GONE
                 return@Observer
+            })
+
+            message.observe(requireActivity(), Observer { message ->
+                if (message.isNotEmpty()) {
+                    PopUp.shortDuration(requireActivity(), message)
+                    return@Observer
+                }
             })
         }
     }
