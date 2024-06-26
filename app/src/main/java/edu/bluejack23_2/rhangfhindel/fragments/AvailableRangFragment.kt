@@ -82,6 +82,13 @@ class AvailableRangFragment : Fragment() {
             roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
             })
+
+            isLoading.observe(viewLifecycleOwner, Observer {
+                isLoading
+                availableRangBinding.progressBar.visibility =
+                    if (isLoading.value!!) View.VISIBLE else View.GONE
+                return@Observer
+            })
         }
     }
 }

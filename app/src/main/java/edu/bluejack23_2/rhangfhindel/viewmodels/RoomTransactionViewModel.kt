@@ -24,6 +24,7 @@ class RoomTransactionViewModel : ViewModel() {
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
 
+
     fun onLoad(
         fetchRang: Boolean,
         fetchAlternatives: Boolean,

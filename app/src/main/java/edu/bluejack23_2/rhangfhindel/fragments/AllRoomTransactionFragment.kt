@@ -67,6 +67,13 @@ class AllRoomTransactionFragment : Fragment() {
                     startActivity(intent)
                 }
             })
+
+            isLoading.observe(viewLifecycleOwner, Observer {
+                isLoading
+                allRoomTransactionBinding.progressBar.visibility =
+                    if (isLoading.value!!) View.VISIBLE else View.GONE
+                return@Observer
+            })
         }
     }
 }

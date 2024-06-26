@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
+import androidx.core.view.marginTop
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.card.MaterialCardView
@@ -79,17 +82,25 @@ class RoomDetailActivity : BaseActivity() {
                 val endHour = startHour + interval
 
                 val cardView = FrameLayout(this).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
                         setMargins(0, 20, 0, 0)
                     }
-                    setPadding(20, 20, 20, 20)
+                    setPadding(30, 30, 30, 30)
                     setBackgroundResource(R.drawable.shape_white_corner_radius)
 
                     clipChildren = false
                     clipToPadding = false
+                }
+
+                val contentView = LinearLayout(this).apply {
+                    layoutParams = LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT
+                    )
+                    orientation = LinearLayout.VERTICAL
                 }
 
                 val scheduleView = LayoutInflater.from(binding.root.context)
@@ -114,8 +125,31 @@ class RoomDetailActivity : BaseActivity() {
                 scheduleTextView.layoutParams.width = 400
                 scheduleTextView.textSize = 12f
 
+                contentView.addView(scheduleView)
+
                 startHour += interval
                 shift += 1
+
+                val borrower = TextView(this@RoomDetailActivity).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(0, 16, 0, 0)
+                    }
+                    setTextColor(resources.getColor(R.color.light_font))
+                }
+
+                val description = TextView(this@RoomDetailActivity).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(0, 8, 0, 0)
+                    }
+                    setTextColor(resources.getColor(R.color.light_font))
+                    
+                }
 
                 val flagView = TextView(this@RoomDetailActivity).apply {
                     if (schedule[i].isEmpty()) {
@@ -128,6 +162,8 @@ class RoomDetailActivity : BaseActivity() {
                         } else {
                             text = "Calibration"
                         }
+                        contentView.addView(borrower)
+                        contentView.addView(description)
                     }
 
                     setPadding(8, 8, 8, 8)
@@ -145,7 +181,25 @@ class RoomDetailActivity : BaseActivity() {
                     textSize = 12f
                 }
 
-                cardView.addView(scheduleView)
+                if (schedule[i].isEmpty()) {
+                    flagView.text = "Free"
+                } else {
+                    if (schedule[i][0].Status == "B") {
+                        flagView.text = "Borrowing"
+                        borrower.text = schedule[i][0].Name
+                        description.text = schedule[i][0].Description
+                    } else if (schedule[i][0].Status == "L") {
+                        flagView.text = "Lecture"
+                        borrower.text = schedule[i][0].Assistant
+                        description.text = schedule[i][0].Description
+                    } else {
+                        flagView.text = "Calibration"
+                        borrower.text = schedule[i][0].Name
+                        description.text = schedule[i][0].Description
+                    }
+                }
+
+                cardView.addView(contentView)
                 cardView.addView(flagView)
                 binding.scheduleContainer.addView(cardView)
             }
