@@ -66,11 +66,11 @@ class LoggedInFragment : Fragment() {
 
         viewModel.success.observe(requireActivity(), Observer { success ->
             if (!success) {
-                PopUp.shortDuration(requireActivity(), "Credentials invalid!")
+                PopUp.shortDuration(requireActivity(), getString(R.string.credentials_invalid))
                 return@Observer
             }
 
-            PopUp.shortDuration(requireActivity(), "Login success!")
+            PopUp.shortDuration(requireActivity(), getString(R.string.login_success))
             redirect()
         })
 

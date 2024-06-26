@@ -100,15 +100,14 @@
             android:layout_width="215dp"
             android:layout_height="45dp"
             android:fontFamily="@font/nunito"
-            android:text="Log out"
+            android:text="@string/log_out"
             android:textAllCaps="false"
             android:textColor="@color/accent"
             android:textFontWeight="700"
             app:backgroundTint="@color/accent_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/biometric_setup_button"
-            tools:ignore="HardcodedText" />
+            app:layout_constraintTop_toBottomOf="@id/biometric_setup_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
