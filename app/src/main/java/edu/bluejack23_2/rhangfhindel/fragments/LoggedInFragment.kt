@@ -6,16 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import androidx.biometric.BiometricManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewbinding.ViewBindings
 import com.google.android.material.button.MaterialButton
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.HomeActivity
 import edu.bluejack23_2.rhangfhindel.activities.LoginActivity
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentLoggedInBinding
 import edu.bluejack23_2.rhangfhindel.factories.LoginViewModelFactory
-import edu.bluejack23_2.rhangfhindel.models.Assistant
 import edu.bluejack23_2.rhangfhindel.utils.PopUp
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
 import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
@@ -43,6 +44,20 @@ class LoggedInFragment : Fragment() {
 
         init(binding)
         setEvent()
+
+        val biometricManager = BiometricManager.from(requireContext())
+        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS or BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
+                binding.root.findViewById<ImageButton>(R.id.login_biometrics_button).visibility =
+                    View.VISIBLE
+
+            else -> {
+                binding.root.findViewById<ImageButton>(R.id.login_biometrics_button).visibility =
+                    View.GONE
+                val params = loginButton.layoutParams as LinearLayout.LayoutParams
+                params.marginEnd = 0
+            }
+        }
 
         return binding.root
     }
