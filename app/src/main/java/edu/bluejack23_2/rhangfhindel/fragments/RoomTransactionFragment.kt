@@ -5,19 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TableLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.squareup.picasso.Picasso
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.adapters.FragmentPageAdapter
-import edu.bluejack23_2.rhangfhindel.databinding.FragmentProfileBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentRoomTransactionBinding
-import edu.bluejack23_2.rhangfhindel.viewmodels.ProfileViewModel
-import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class RoomTransactionFragment : Fragment() {
     private lateinit var binding: FragmentRoomTransactionBinding
@@ -42,7 +35,8 @@ class RoomTransactionFragment : Fragment() {
             viewPager2.adapter = FragmentPageAdapter(childFragmentManager, lifecycle)
 
             TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-                tab.text = if (position == 0) "Available Rang" else "Room Transactions"
+                tab.text =
+                    if (position == 0) getString(R.string.available_rang) else getString(R.string.room_transactions)
             }.attach()
 
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

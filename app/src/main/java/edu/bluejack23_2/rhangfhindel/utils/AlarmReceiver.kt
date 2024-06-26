@@ -19,20 +19,20 @@ class AlarmReceiver : BroadcastReceiver() {
             val viewModel = RoomTransactionViewModel()
             viewModel.onLoad(fetchRang = true, fetchAlternatives = true)
 
-            val rangs = viewModel.rangs.value!!
-            val alternatives = viewModel.alternatives.value!!
+            val rangs = viewModel.rangs.value
+            val alternatives = viewModel.alternatives.value
 
             var rangStr = ""
             var alternativeStr = ""
 
-            rangs.forEach {
+            rangs?.forEach {
                 rangStr += it.RoomName
                 if (rangs.indexOf(it) != rangs.size - 1) {
                     rangStr += ", "
                 }
             }
 
-            alternatives.forEach {
+            alternatives?.forEach {
                 alternativeStr += it.RoomName
                 if (alternatives.indexOf(it) != alternatives.size - 1) {
                     alternativeStr += ", "
