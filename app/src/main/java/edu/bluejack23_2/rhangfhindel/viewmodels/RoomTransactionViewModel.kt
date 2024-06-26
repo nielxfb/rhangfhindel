@@ -1,14 +1,19 @@
 package edu.bluejack23_2.rhangfhindel.viewmodels
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
+import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
+import edu.bluejack23_2.rhangfhindel.models.StatusDetail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 
 class RoomTransactionViewModel : ViewModel() {
 
@@ -18,8 +23,26 @@ class RoomTransactionViewModel : ViewModel() {
     val roomTransactions = MutableLiveData<List<Detail>>()
     val rangs = MutableLiveData<List<Detail>>()
     val alternatives = MutableLiveData<List<Detail>>()
+    var redirectRoom = MutableLiveData<Detail>()
 
-    fun onLoad(fetchRang: Boolean, fetchAlternatives: Boolean) {
+    lateinit var modal: Dialog
+    lateinit var modalBinding: BookModalBinding
+
+
+    fun onLoad(
+        fetchRang: Boolean,
+        fetchAlternatives: Boolean,
+        modal: Dialog?,
+        modalBinding: BookModalBinding?,
+    ) {
+
+        if (modal != null) {
+            this.modal = modal
+        }
+        if (modalBinding != null) {
+            this.modalBinding = modalBinding
+        }
+
         Coroutines.main {
             errorMessage.value = ""
             isLoading.value = true
@@ -30,10 +53,10 @@ class RoomTransactionViewModel : ViewModel() {
 
                 if (fetchRang) {
                     rangs.value = getAvailableRangs(response.Details
-                        .filter { it.Campus == "ANGGREK" })
+                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") })
                 } else {
                     roomTransactions.value = response.Details
-                        .filter { it.Campus == "ANGGREK" }
+                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
                 }
 
                 if (fetchAlternatives) {
@@ -108,6 +131,15 @@ class RoomTransactionViewModel : ViewModel() {
         }
 
         return alternativeRangs
+    }
+
+    fun showRangModal(roomName: String) {
+        modalBinding.textViewDialog.text = "Do you want to book Room ${roomName}?"
+        modal.show()
+    }
+
+    fun closeModal() {
+        modal.dismiss()
     }
 
 }

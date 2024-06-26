@@ -1,5 +1,9 @@
 package edu.bluejack23_2.rhangfhindel.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class StatusDetail(
     val Assistant: String?,
     val ClassName: String?,
@@ -16,4 +20,4 @@ data class StatusDetail(
     val TransactionDetailId: String?,
     val TransactionId: String?,
     val Type: String?
-)
+) : Parcelable

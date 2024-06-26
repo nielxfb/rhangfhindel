@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -89,5 +90,8 @@ dependencies {
 
     // Biometric login
     implementation 'androidx.biometric:biometric:1.1.0'
+
+    //parcelize
+    implementation "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.8.0"
 
 }
