@@ -79,7 +79,7 @@ class AvailableRangFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.apply {
-            roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
+            rangs.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
             })
 
