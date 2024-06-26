@@ -1,5 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
+import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAllRoomTransactionBinding
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
@@ -56,6 +58,14 @@ class AllRoomTransactionFragment : Fragment() {
         viewModel.apply {
             roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
+            })
+
+            redirectRoom.observe(viewLifecycleOwner, Observer { room ->
+                if (room != null) {
+                    val intent = Intent(requireContext(), RoomDetailActivity::class.java)
+                    intent.putExtra("room", room)
+                    startActivity(intent)
+                }
             })
         }
     }

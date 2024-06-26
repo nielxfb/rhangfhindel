@@ -41,6 +41,10 @@ class RoomAdapter(
             holder.binding.root.setOnClickListener {
                 viewModel.showRangModal(room.RoomName)
             }
+        } else {
+            holder.binding.root.setOnClickListener {
+                viewModel.redirectRoom.value = room
+            }
         }
         populateSchedule(holder.binding, room)
     }

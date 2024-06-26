@@ -1,14 +1,17 @@
 package edu.bluejack23_2.rhangfhindel.viewmodels
 
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
+import edu.bluejack23_2.rhangfhindel.models.StatusDetail
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
-
 
 class RoomTransactionViewModel : ViewModel() {
 
@@ -16,6 +19,7 @@ class RoomTransactionViewModel : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
+    var redirectRoom = MutableLiveData<Detail>()
 
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
@@ -24,7 +28,7 @@ class RoomTransactionViewModel : ViewModel() {
         fetchRang: Boolean,
         fetchAlternatives: Boolean,
         modal: Dialog?,
-        modalBinding: BookModalBinding?
+        modalBinding: BookModalBinding?,
     ) {
 
         if (modal != null) {

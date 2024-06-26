@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Rhangfhindel"
         tools:targetApi="31">
         <activity
+            android:name=".activities.RoomDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
