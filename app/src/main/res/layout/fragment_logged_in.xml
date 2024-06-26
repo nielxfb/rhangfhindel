@@ -73,13 +73,12 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login with another Account"
+                android:text="@string/login_with_another_account"
                 android:textAllCaps="false"
                 android:textColor="@color/primary_color"
                 android:textFontWeight="700"
                 android:textSize="14sp"
-                app:backgroundTint="@color/secondary_button"
-                tools:ignore="HardcodedText" />
+                app:backgroundTint="@color/secondary_button" />
 
         </LinearLayout>
 

@@ -3,6 +3,7 @@ package edu.bluejack23_2.rhangfhindel.repositories
 import android.content.Context
 import com.google.firebase.database.*
 import edu.bluejack23_2.rhangfhindel.models.Booker
+import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.PopUp
 
 object FirebaseRepository {
@@ -10,7 +11,15 @@ object FirebaseRepository {
     private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     fun addBooker(roomNumber: String, initial: String) {
-        db.child("bookers").child(roomNumber).setValue(Booker(initial))
+        Coroutines.main {
+            db.child("bookers").child(roomNumber).setValue(Booker(initial))
+            val generation = initial.substring(2)
+            NotificationRepository.sendNotification(
+                "Rang for $generation",
+                "Rang has been booked at $roomNumber",
+                generation
+            )
+        }
     }
 
     fun getBookers(context: Context, callback: (List<Booker>) -> Unit) {

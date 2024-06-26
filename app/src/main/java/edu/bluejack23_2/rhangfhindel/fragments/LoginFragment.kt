@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.bluejack23_2.rhangfhindel.R
@@ -46,11 +45,11 @@ class LoginFragment : Fragment() {
 
         viewModel.success.observe(requireActivity(), Observer { success ->
             if (!success) {
-                PopUp.shortDuration(requireActivity(), "Credentials invalid!")
+                PopUp.shortDuration(requireActivity(), getString(R.string.credentials_invalid))
                 return@Observer
             }
 
-            PopUp.shortDuration(requireActivity(), "Login success!")
+            PopUp.shortDuration(requireActivity(), getString(R.string.login_success))
             redirect()
         })
 

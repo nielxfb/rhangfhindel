@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.models.Assistant
 import edu.bluejack23_2.rhangfhindel.modules.requests.LogOnRequest
 import edu.bluejack23_2.rhangfhindel.repositories.AssistantRepository
@@ -34,9 +35,9 @@ class LoginViewModel(private val context: Context) : ViewModel() {
         val initialPattern = "^[A-Za-z]{2}\\d{2}-\\d$".toRegex()
 
         if (username.isEmpty() || password.isEmpty()) {
-            errorMessage.value = "All fields are required"
+            errorMessage.value = context.getString(R.string.all_field_required)
         } else if (!username.matches(initialPattern)) {
-            errorMessage.value = "Invalid initial format"
+            errorMessage.value = context.getString(R.string.initial_format)
         }
 
         return errorMessage.value.isNullOrEmpty()
@@ -61,7 +62,7 @@ class LoginViewModel(private val context: Context) : ViewModel() {
             } catch (e: IOException) {
                 Log.d("Exception", e.toString())
                 if (e.toString().contains("401")) {
-                    errorMessage.value = "Invalid credentials"
+                    errorMessage.value = context.getString(R.string.credentials_invalid)
                 } else if (e.toString().contains("UnknownHostException")) {
                     errorMessage.value = "502 BAD GATEWAY"
                 }
@@ -69,6 +70,4 @@ class LoginViewModel(private val context: Context) : ViewModel() {
             isLoading.value = false
         }
     }
-
-
 }
