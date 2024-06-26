@@ -12,7 +12,8 @@ object FirebaseRepository {
 
     fun addBooker(roomNumber: String, initial: String) {
         Coroutines.main {
-            db.child("bookers").child(roomNumber).setValue(Booker(initial))
+            val key = db.child("bookers").push().key.toString()
+            db.child("bookers").child(key).setValue(Booker(initial, roomNumber))
             val generation = initial.substring(2)
             NotificationRepository.sendNotification(
                 "Rang for $generation",
