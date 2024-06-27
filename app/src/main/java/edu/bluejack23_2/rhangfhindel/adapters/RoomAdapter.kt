@@ -76,6 +76,8 @@ class RoomAdapter(
                 }
             }
 
+            populateSchedule(holder.binding, room)
+
             return;
 
         }
@@ -90,7 +92,9 @@ class RoomAdapter(
                 viewModel.redirectRoom.value = room
             }
         }
+
         populateSchedule(holder.binding, room)
+
     }
 
 
