@@ -4,9 +4,9 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="end"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="right">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/filter_modal_title"
@@ -15,28 +15,31 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nunito"
             android:text="@string/filter"
+            android:textAlignment="viewStart"
             android:textFontWeight="700"
-            android:textSize="20sp"
-            android:textAlignment="viewStart" />
+            android:textSize="20sp" />
 
         <CheckBox
+            android:id="@+id/checkbox_6_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/_6th_floor" />
 
         <CheckBox
+            android:id="@+id/checkbox_7_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/_7th_floor" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/apply_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary_button"
+            android:fontFamily="@font/nunito"
             android:text="@string/apply_filter"
             android:textAllCaps="false"
-            android:fontFamily="@font/nunito"
-            android:backgroundTint="@color/accent_background"
-            android:textColor="@color/accent" />
+            android:textColor="@color/primary_color" />
 
     </LinearLayout>
 
