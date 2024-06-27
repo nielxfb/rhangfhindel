@@ -17,4 +17,5 @@
     <string name="biometrics_not_setup">Fitur biometrik belum diaktifkan!</string>
     <string name="greetings">Halo, %s</string>
     <string name="query_hint">Cari ruangan..</string>
+    <string name="password_placeholder">Kata Sandi</string>
 </resources>
