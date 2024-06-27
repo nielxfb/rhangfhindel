@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import edu.bluejack23_2.rhangfhindel.R
@@ -24,6 +25,10 @@ class RoomAdapter(
     private var rooms: List<Detail>,
     private val viewModel: RoomTransactionViewModel,
 ) : RecyclerView.Adapter<RoomAdapter.RoomViewHolder>() {
+
+    companion object {
+        const val FLAG_VIEW_TAG = "flag_view_tag"
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
         val binding = DataBindingUtil.inflate<RecyclerViewRoomBinding>(
@@ -42,13 +47,18 @@ class RoomAdapter(
         var initial = ""
 
         holder.bind(room)
+
+        holder.binding.cardView.children
+            .filter { it.tag == FLAG_VIEW_TAG }
+            .forEach { holder.binding.cardView.removeView(it) }
+
         if (viewModel.bookedRoomList.value!!.contains(room.RoomName)) {
             initial =
                 viewModel.bookedInitialList.value!![viewModel.bookedRoomList.value!!.indexOf(room.RoomName)]
 
             val flagView = TextView(viewModel.context).apply {
                 text = "Booked by $initial"
-
+                tag = FLAG_VIEW_TAG
                 Log.d("TESTES", "MASUK")
 
                 setPadding(8, 8, 8, 8)
