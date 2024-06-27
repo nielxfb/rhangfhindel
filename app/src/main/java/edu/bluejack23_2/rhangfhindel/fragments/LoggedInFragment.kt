@@ -93,6 +93,7 @@ class LoggedInFragment : Fragment() {
 
             })
 
+        // TODO: Set localization
         promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Login with Biometric")
             .setSubtitle("Please use your biometric credentials to continue")
