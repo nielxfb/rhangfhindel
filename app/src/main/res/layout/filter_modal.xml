@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="right">
+
+        <TextView
+            android:id="@+id/filter_modal_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito"
+            android:text="@string/filter"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            android:textAlignment="viewStart" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_6th_floor" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_7th_floor" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply_filter"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nunito"
+            android:backgroundTint="@color/accent_background"
+            android:textColor="@color/accent" />
+
+    </LinearLayout>
+
+</layout>
