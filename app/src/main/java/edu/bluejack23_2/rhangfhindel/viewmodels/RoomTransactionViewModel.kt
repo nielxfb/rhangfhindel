@@ -24,6 +24,8 @@ class RoomTransactionViewModel : ViewModel() {
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
     val rangs = MutableLiveData<List<Detail>>()
+    var bookedRoomList = MutableLiveData<List<String>>().apply { value = listOf("") }
+    val bookedInitialList = MutableLiveData<List<String>>().apply { value = listOf("") }
     val alternatives = MutableLiveData<List<Detail>>()
     var redirectRoom = MutableLiveData<Detail?>()
     var message = MutableLiveData<String>()
@@ -31,6 +33,7 @@ class RoomTransactionViewModel : ViewModel() {
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
     lateinit var currRoom: Detail
+    lateinit var context: Context
 
 
     fun onLoad(
@@ -38,8 +41,8 @@ class RoomTransactionViewModel : ViewModel() {
         fetchAlternatives: Boolean,
         modal: Dialog?,
         modalBinding: BookModalBinding?,
+        context: Context?
     ) {
-
         redirectRoom.value = null
 
         if (modal != null) {
@@ -71,6 +74,14 @@ class RoomTransactionViewModel : ViewModel() {
                 }
 
                 Log.d("Fetching", "Selesai fetch")
+
+                if (context != null) {
+                    this.context = context
+                    FirebaseRepository.getBookers(context) { rooms, initials ->
+                        bookedRoomList.value = rooms
+                        bookedInitialList.value = initials
+                    }
+                }
 
                 success.value = true
             } catch (e: Exception) {

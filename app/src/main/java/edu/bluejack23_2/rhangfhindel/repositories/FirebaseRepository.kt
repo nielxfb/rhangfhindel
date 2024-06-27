@@ -10,7 +10,7 @@ object FirebaseRepository {
 
     private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    fun addBooker(roomNumber: String, initial: String) {
+    suspend fun addBooker(roomNumber: String, initial: String) {
         Coroutines.main {
             val key = db.child("bookers").push().key.toString()
             db.child("bookers").child(key).setValue(Booker(initial, roomNumber))
@@ -23,15 +23,17 @@ object FirebaseRepository {
         }
     }
 
-    fun getBookers(context: Context, callback: (List<Booker>) -> Unit) {
+    fun getBookers(context: Context, callback: (List<String>, List<String>) -> Unit) {
         db.child("bookers").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val bookerList = mutableListOf<Booker>()
+                val roomList = mutableListOf<String>()
+                val initialList = mutableListOf<String>()
                 for (data in snapshot.children) {
                     val booker = data.getValue(Booker::class.java)
-                    booker?.let { bookerList.add(it) }
+                    booker?.let { roomList.add(it.roomNumber!!) }
+                    booker?.let { initialList.add(it.initial!!) }
                 }
-                callback(bookerList)
+                callback(roomList, initialList)
             }
 
             override fun onCancelled(error: DatabaseError) {

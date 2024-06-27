@@ -40,7 +40,7 @@ class AllRoomTransactionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(false, false, null, null)
+        viewModel.onLoad(false, false, null, null, requireContext())
 
         initRecyclerView()
 
@@ -73,6 +73,12 @@ class AllRoomTransactionFragment : Fragment() {
                 allRoomTransactionBinding.progressBar.visibility =
                     if (isLoading.value!!) View.VISIBLE else View.GONE
                 return@Observer
+            })
+
+            bookedRoomList.observe(requireActivity(), Observer { bookedRooms ->
+                if (roomTransactions.value != null) {
+                    roomAdapter.updateRooms(roomTransactions.value!!)
+                }
             })
         }
     }

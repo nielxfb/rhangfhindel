@@ -1,8 +1,11 @@
 package edu.bluejack23_2.rhangfhindel.adapters
 
 import android.app.Dialog
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -36,7 +39,35 @@ class RoomAdapter(
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = rooms[position]
+        var initial = ""
+
         holder.bind(room)
+        if (viewModel.bookedRoomList.value!!.contains(room.RoomName)) {
+            initial =
+                viewModel.bookedInitialList.value!![viewModel.bookedRoomList.value!!.indexOf(room.RoomName)]
+
+            val flagView = TextView(viewModel.context).apply {
+                text = "Booked by $initial"
+
+                Log.d("TESTES", "MASUK")
+
+                setPadding(8, 8, 8, 8)
+                setTextColor(resources.getColor(R.color.accent))
+                setBackgroundResource(R.drawable.shape_accent_corner_radius)
+                layoutParams = FrameLayout.LayoutParams(
+                    400,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = Gravity.END or Gravity.TOP
+                    setMargins(0, 5, 0, 0)
+                }
+
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                textSize = 12f
+            }
+
+            holder.binding.cardView.addView(flagView)
+        }
         if (rang) {
             holder.binding.root.setOnClickListener {
                 viewModel.showRangModal(room.RoomName)

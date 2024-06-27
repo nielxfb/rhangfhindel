@@ -46,7 +46,7 @@ class AvailableRangFragment : Fragment() {
         initModal()
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(true, true, modal, modalBinding)
+        viewModel.onLoad(true, true, modal, modalBinding, requireContext())
 
         initRecyclerView()
 
@@ -97,7 +97,18 @@ class AvailableRangFragment : Fragment() {
             message.observe(requireActivity(), Observer { message ->
                 if (message.isNotEmpty()) {
                     PopUp.shortDuration(requireActivity(), message)
+
+                    viewModel.message.value = ""
                     return@Observer
+                }
+            })
+
+            bookedRoomList.observe(requireActivity(), Observer { bookedRooms ->
+                if (rangs.value != null) {
+                    val bookedRoomsSet = bookedRooms.toSet()
+                    val filteredRangs =
+                        viewModel.rangs.value?.filter { it.RoomName !in bookedRoomsSet }
+                    viewModel.rangs.value = filteredRangs
                 }
             })
         }
