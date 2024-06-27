@@ -13,4 +13,6 @@
     <string name="login_success">Berhasil masuk!</string>
     <string name="all_field_required">Semua kolom wajib diisi!</string>
     <string name="initial_format">Format inisial tidak sesuai!</string>
+    <string name="biometrics_setup_success">Berhasil menyimpan biometrik!</string>
+    <string name="biometrics_not_setup">Fitur biometrik belum diaktifkan!</string>
 </resources>

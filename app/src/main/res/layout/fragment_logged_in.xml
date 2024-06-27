@@ -60,6 +60,7 @@
                     app:backgroundTint="@color/accent_background" />
 
                 <ImageButton
+                    android:id="@+id/login_biometrics_button"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:background="@drawable/baseline_fingerprint_24"

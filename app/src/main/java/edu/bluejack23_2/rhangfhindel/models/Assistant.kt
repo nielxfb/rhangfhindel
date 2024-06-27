@@ -5,5 +5,6 @@ data class Assistant(
     val Name: String,
     val Username: String,
     val PictureId: String,
-    val Roles: ArrayList<String>
+    val Roles: ArrayList<String>,
+    var UseBiometric: Boolean = false
 )
