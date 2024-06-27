@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
 import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
+import edu.bluejack23_2.rhangfhindel.databinding.FilterModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAvailableRangBinding
 import edu.bluejack23_2.rhangfhindel.databinding.RecyclerViewRoomBinding
 import edu.bluejack23_2.rhangfhindel.databinding.ScheduleLayoutBinding
@@ -26,29 +27,43 @@ class AvailableRangFragment : Fragment() {
     private lateinit var availableRangBinding: FragmentAvailableRangBinding
     private lateinit var recyclerViewRoomBinding: RecyclerViewRoomBinding
     private lateinit var scheduleLayoutBinding: ScheduleLayoutBinding
-    private lateinit var modalBinding: BookModalBinding
+    private lateinit var bookModalBinding: BookModalBinding
+    private lateinit var filterModalBinding: FilterModalBinding
     private lateinit var roomAdapter: RoomAdapter
 
-    private lateinit var modal: Dialog
+    private lateinit var bookModal: Dialog
+    private lateinit var filterModal: Dialog
     private lateinit var searchBar: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         availableRangBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_available_rang, container, false)
-        modalBinding = DataBindingUtil.inflate(inflater, R.layout.book_modal, container, false)
+        bookModalBinding =
+            DataBindingUtil.inflate(inflater, R.layout.book_modal, container, false)
+        filterModalBinding =
+            DataBindingUtil.inflate(inflater, R.layout.filter_modal, container, false)
         return availableRangBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initModal()
+        initBookModal()
+        initFilterModal()
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(true, true, modal, modalBinding, requireContext())
+        viewModel.onLoad(
+            fetchRang = true,
+            fetchAlternatives = true,
+            bookModal,
+            bookModalBinding,
+            filterModal,
+            filterModalBinding,
+            requireContext()
+        )
 
         searchBar = availableRangBinding.root.findViewById(R.id.search_bar_rang_list)
 
@@ -60,11 +75,19 @@ class AvailableRangFragment : Fragment() {
     }
 
     private fun setEvent() {
-        modalBinding.buttonCancel.setOnClickListener {
-            viewModel.closeModal()
+        bookModalBinding.buttonCancel.setOnClickListener {
+            viewModel.closeBookModal()
         }
-        modalBinding.buttonYes.setOnClickListener {
+        bookModalBinding.buttonYes.setOnClickListener {
             viewModel.bookRang(requireContext())
+        }
+        filterModalBinding.applyFilterButton.setOnClickListener {
+            val is6Floor = filterModalBinding.checkbox6Floor.isChecked
+            val is7Floor = filterModalBinding.checkbox7Floor.isChecked
+            viewModel.onApplyFilterRang(is6Floor, is7Floor)
+        }
+        availableRangBinding.filterButton.setOnClickListener {
+            viewModel.showFilterModal()
         }
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -79,14 +102,24 @@ class AvailableRangFragment : Fragment() {
         })
     }
 
-    private fun initModal() {
-        modal = Dialog(requireContext())
-        modal.setContentView(modalBinding.root)
-        modal.window?.setLayout(
+    private fun initBookModal() {
+        bookModal = Dialog(requireContext())
+        bookModal.setContentView(bookModalBinding.root)
+        bookModal.window?.setLayout(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        modal.setCancelable(true)
+        bookModal.setCancelable(true)
+    }
+
+    private fun initFilterModal() {
+        filterModal = Dialog(requireContext())
+        filterModal.setContentView(filterModalBinding.root)
+        filterModal.window?.setLayout(
+            800,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        filterModal.setCancelable(true)
     }
 
     private fun initRecyclerView() {
