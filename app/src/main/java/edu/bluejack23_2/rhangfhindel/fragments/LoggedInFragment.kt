@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
@@ -25,6 +27,10 @@ class LoggedInFragment : Fragment() {
 
     private lateinit var loginAnotherAccountButton: MaterialButton
     private lateinit var loginButton: MaterialButton
+    private lateinit var loginBiometricsButton: ImageButton
+
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     private var _binding: FragmentLoggedInBinding? = null
     private val binding get() = _binding!!
@@ -47,16 +53,14 @@ class LoggedInFragment : Fragment() {
 
         val biometricManager = BiometricManager.from(requireContext())
         when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
-            BiometricManager.BIOMETRIC_SUCCESS or BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
-                binding.root.findViewById<ImageButton>(R.id.login_biometrics_button).visibility =
-                    View.VISIBLE
-
-            else -> {
-                binding.root.findViewById<ImageButton>(R.id.login_biometrics_button).visibility =
-                    View.GONE
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE or BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED or BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                loginBiometricsButton.visibility = View.GONE
                 val params = loginButton.layoutParams as LinearLayout.LayoutParams
                 params.marginEnd = 0
             }
+
+            else ->
+                loginBiometricsButton.visibility = View.VISIBLE
         }
 
         return binding.root
@@ -64,7 +68,36 @@ class LoggedInFragment : Fragment() {
 
     private fun init(binding: FragmentLoggedInBinding) {
         loginButton = binding.root.findViewById(R.id.login_button)
+        loginBiometricsButton = binding.root.findViewById(R.id.login_biometrics_button)
         loginAnotherAccountButton = binding.root.findViewById(R.id.login_another_account_button)
+
+        biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(requireContext()),
+            object : BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    PopUp.shortDuration(requireContext(), "Authentication error: $errString")
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    PopUp.shortDuration(requireContext(), getString(R.string.login_success))
+                    startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                    requireActivity().finish()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    PopUp.shortDuration(requireContext(), getString(R.string.credentials_invalid))
+                }
+
+            })
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Login with Biometric")
+            .setSubtitle("Please use your biometric credentials to continue")
+            .setNegativeButtonText("Use password")
+            .build()
     }
 
     private fun setEvent() {
@@ -100,6 +133,16 @@ class LoggedInFragment : Fragment() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             return@Observer
         })
+
+        loginBiometricsButton.setOnClickListener {
+            val ast = viewModel.assistant.value
+            if (!ast!!.UseBiometric) {
+                PopUp.shortDuration(requireContext(), getString(R.string.biometrics_not_setup))
+                return@setOnClickListener
+            }
+
+            biometricPrompt.authenticate(promptInfo)
+        }
     }
 
     private fun redirect() {
