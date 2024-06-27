@@ -65,7 +65,5 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    override fun setEvent() {
-        TODO("Not yet implemented")
-    }
+    override fun setEvent() {}
 }

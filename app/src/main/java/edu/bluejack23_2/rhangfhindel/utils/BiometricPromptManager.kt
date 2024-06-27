@@ -50,7 +50,7 @@ class BiometricPromptManager(private val activity: AppCompatActivity) {
             else -> Unit
         }
 
-        val prompt = BiometricPrompt(activity, object: BiometricPrompt.AuthenticationCallback() {
+        val prompt = BiometricPrompt(activity, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
                 resultChannel.trySend(BiometricResult.AuthenticationError)
@@ -67,7 +67,6 @@ class BiometricPromptManager(private val activity: AppCompatActivity) {
             }
         })
 
-        // TODO: Tambahin security
         prompt.authenticate(promptInfo.build())
     }
 

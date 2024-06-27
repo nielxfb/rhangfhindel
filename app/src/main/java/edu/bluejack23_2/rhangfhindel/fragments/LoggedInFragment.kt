@@ -93,11 +93,10 @@ class LoggedInFragment : Fragment() {
 
             })
 
-        // TODO: Set localization
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Login with Biometric")
-            .setSubtitle("Please use your biometric credentials to continue")
-            .setNegativeButtonText("Use password")
+            .setTitle(requireActivity().getString(R.string.register_biometric))
+            .setSubtitle(requireActivity().getString(R.string.register_biometric_description))
+            .setNegativeButtonText(requireActivity().getString(R.string.cancel))
             .build()
     }
 

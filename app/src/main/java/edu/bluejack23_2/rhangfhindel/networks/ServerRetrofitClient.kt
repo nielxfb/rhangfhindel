@@ -12,7 +12,7 @@ object ServerRetrofitClient {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.SERVER_BASE_URL) // TODO: Sesuain sama IP device saat ini. Nanti kalo udah dihost lebih gampang
+            .baseUrl(BuildConfig.SERVER_BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
