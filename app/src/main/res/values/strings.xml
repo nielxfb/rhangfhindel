@@ -25,4 +25,5 @@
     <string name="_6th_floor">6th floor</string>
     <string name="_7th_floor">7th floor</string>
     <string name="apply_filter">Apply filter</string>
+    <string name="booking_confirmation">Do you want to book Room %s?</string>
 </resources>
