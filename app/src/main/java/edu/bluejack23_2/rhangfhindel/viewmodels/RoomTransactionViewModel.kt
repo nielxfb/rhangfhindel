@@ -2,20 +2,17 @@ package edu.bluejack23_2.rhangfhindel.viewmodels
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
+import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
+import edu.bluejack23_2.rhangfhindel.databinding.FilterModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
-import edu.bluejack23_2.rhangfhindel.models.StatusDetail
 import edu.bluejack23_2.rhangfhindel.repositories.FirebaseRepository
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class RoomTransactionViewModel : ViewModel() {
 
@@ -34,8 +31,11 @@ class RoomTransactionViewModel : ViewModel() {
     var allRangs = listOf<Detail>()
     var allRooms = listOf<Detail>()
 
-    lateinit var modal: Dialog
-    lateinit var modalBinding: BookModalBinding
+    lateinit var bookModal: Dialog
+    lateinit var bookModalBinding: BookModalBinding
+    lateinit var filterModal: Dialog
+    lateinit var filterModalBinding: FilterModalBinding
+
     lateinit var currRoom: Detail
     lateinit var context: Context
 
@@ -45,17 +45,25 @@ class RoomTransactionViewModel : ViewModel() {
     fun onLoad(
         fetchRang: Boolean,
         fetchAlternatives: Boolean,
-        modal: Dialog?,
-        modalBinding: BookModalBinding?,
+        bookModal: Dialog?,
+        bookModalBinding: BookModalBinding?,
+        filterModal: Dialog?,
+        filterModalBinding: FilterModalBinding?,
         context: Context?
     ) {
         redirectRoom.value = null
 
-        if (modal != null) {
-            this.modal = modal
+        if (bookModal != null) {
+            this.bookModal = bookModal
         }
-        if (modalBinding != null) {
-            this.modalBinding = modalBinding
+        if (bookModalBinding != null) {
+            this.bookModalBinding = bookModalBinding
+        }
+        if (filterModal != null) {
+            this.filterModal = filterModal
+        }
+        if (filterModalBinding != null) {
+            this.filterModalBinding = filterModalBinding
         }
 
         Coroutines.main {
@@ -166,12 +174,47 @@ class RoomTransactionViewModel : ViewModel() {
     }
 
     fun showRangModal(roomName: String) {
-        modalBinding.textViewDialog.text = "Do you want to book Room ${roomName}?"
-        modal.show()
+        bookModalBinding.textViewDialog.text =
+            String.format(context.getString(R.string.booking_confirmation), roomName)
+        bookModal.show()
     }
 
-    fun closeModal() {
-        modal.dismiss()
+    fun showFilterModal() {
+        filterModal.show()
+    }
+
+    fun closeBookModal() {
+        bookModal.dismiss()
+    }
+
+    fun onApplyFilterRang(is6Floor: Boolean, is7Floor: Boolean) {
+        rangs.value = allRangs
+        rangs.value = rangs.value!!.filter { detail ->
+            if ((is6Floor && is7Floor) || (!is6Floor && !is7Floor)) {
+                return@filter true
+            } else if (is6Floor) {
+                return@filter detail.RoomName.startsWith("6")
+            } else if (is7Floor) {
+                return@filter detail.RoomName.startsWith("7")
+            }
+            return@filter false
+        }
+        filterModal.dismiss()
+    }
+
+    fun onApplyFilterRoom(is6Floor: Boolean, is7Floor: Boolean) {
+        roomTransactions.value = allRooms
+        roomTransactions.value = roomTransactions.value!!.filter { detail ->
+            if ((is6Floor && is7Floor) || (!is6Floor && !is7Floor)) {
+                return@filter true
+            } else if (is6Floor) {
+                return@filter detail.RoomName.startsWith("6")
+            } else if (is7Floor) {
+                return@filter detail.RoomName.startsWith("7")
+            }
+            return@filter false
+        }
+        filterModal.dismiss()
     }
 
     fun bookRang(context: Context) {
@@ -182,7 +225,7 @@ class RoomTransactionViewModel : ViewModel() {
                 SharedPrefManager.getAssistant(context)!!.Username
             )
             isLoading.value = false
-            closeModal()
+            closeBookModal()
             message.value = "Successfully Booked Room ${currRoom.RoomName}"
         }
     }
