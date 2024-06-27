@@ -24,6 +24,7 @@ class RoomTransactionViewModel : ViewModel() {
     val success = MutableLiveData<Boolean>()
     val roomTransactions = MutableLiveData<List<Detail>>()
     val rangs = MutableLiveData<List<Detail>>()
+    val activeRangs = MutableLiveData<List<Detail>>()
     var bookedRoomList = MutableLiveData<List<String>>().apply { value = listOf("") }
     val bookedInitialList = MutableLiveData<List<String>>().apply { value = listOf("") }
     val alternatives = MutableLiveData<List<Detail>>()
@@ -67,6 +68,7 @@ class RoomTransactionViewModel : ViewModel() {
                     roomTransactions.value = response.Details
                         .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
                 }
+
 
                 if (fetchAlternatives) {
                     alternatives.value = getAlternativeRangs(response.Details
@@ -147,7 +149,13 @@ class RoomTransactionViewModel : ViewModel() {
             }
         }
 
+        getActiveRangs()
+
         return alternativeRangs
+    }
+
+    fun getActiveRangs() {
+        activeRangs.value = rangs.value?.filter { bookedRoomList.value!!.contains(it.RoomName) }
     }
 
     fun showRangModal(roomName: String) {

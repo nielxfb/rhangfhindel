@@ -94,7 +94,7 @@ class AvailableRangFragment : Fragment() {
                 return@Observer
             })
 
-            message.observe(requireActivity(), Observer { message ->
+            message.observe(viewLifecycleOwner, Observer { message ->
                 if (message.isNotEmpty()) {
                     PopUp.shortDuration(requireActivity(), message)
 
@@ -103,12 +103,9 @@ class AvailableRangFragment : Fragment() {
                 }
             })
 
-            bookedRoomList.observe(requireActivity(), Observer { bookedRooms ->
+            bookedRoomList.observe(viewLifecycleOwner, Observer { bookedRooms ->
                 if (rangs.value != null) {
-                    val bookedRoomsSet = bookedRooms.toSet()
-                    val filteredRangs =
-                        viewModel.rangs.value?.filter { it.RoomName !in bookedRoomsSet }
-                    viewModel.rangs.value = filteredRangs
+                    roomAdapter.updateRooms(rangs.value!!)
                 }
             })
         }

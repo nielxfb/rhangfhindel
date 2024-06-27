@@ -67,7 +67,21 @@ class RoomAdapter(
             }
 
             holder.binding.cardView.addView(flagView)
+
+            holder.binding.root.setOnClickListener {
+                if (!rang) {
+                    viewModel.redirectRoom.value = room
+                } else {
+                    viewModel.message.value = "Room already booked"
+                }
+            }
+
+            populateSchedule(holder.binding, room)
+
+            return;
+
         }
+
         if (rang) {
             holder.binding.root.setOnClickListener {
                 viewModel.showRangModal(room.RoomName)
@@ -78,7 +92,9 @@ class RoomAdapter(
                 viewModel.redirectRoom.value = room
             }
         }
+
         populateSchedule(holder.binding, room)
+
     }
 
 
