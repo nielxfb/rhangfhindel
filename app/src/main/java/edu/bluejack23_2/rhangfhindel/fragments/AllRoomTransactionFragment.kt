@@ -101,6 +101,7 @@ class AllRoomTransactionFragment : Fragment() {
                     roomAdapter.updateRooms(roomTransactions.value!!)
                 }
             })
+
             searchQuery.observe(viewLifecycleOwner, Observer { query ->
                 roomTransactions.value = allRooms
                 roomTransactions.value = roomTransactions.value!!.filter { room ->
