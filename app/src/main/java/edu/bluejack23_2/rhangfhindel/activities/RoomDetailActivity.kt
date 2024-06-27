@@ -1,10 +1,12 @@
 package edu.bluejack23_2.rhangfhindel.activities
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
@@ -20,6 +22,7 @@ import edu.bluejack23_2.rhangfhindel.base.BaseActivity
 import edu.bluejack23_2.rhangfhindel.databinding.ActivityRoomDetailBinding
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.models.StatusDetail
+import edu.bluejack23_2.rhangfhindel.repositories.FirebaseRepository
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomDetailViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,7 +75,16 @@ class RoomDetailActivity : BaseActivity() {
     private fun observeViewModel() {
         viewModel.room.observe(this) { room ->
 
-            binding.roomName.text = "< Room ${room.RoomName}"
+            binding.roomName.text = "<    Room ${room.RoomName}"
+
+            FirebaseRepository.getBookers(this@RoomDetailActivity) { rooms, initials ->
+                if (rooms.contains(room.RoomName)) {
+                    val index = rooms.indexOf(room.RoomName)
+                    binding.bookedTagDetail.text = "Booked by ${initials[index]}"
+                } else {
+                    binding.bookedTagDetail.visibility = View.GONE
+                }
+            }
 
             binding.scheduleContainer.removeAllViews()
 
@@ -148,7 +160,7 @@ class RoomDetailActivity : BaseActivity() {
                         setMargins(0, 8, 0, 0)
                     }
                     setTextColor(resources.getColor(R.color.light_font))
-                    
+
                 }
 
                 val flagView = TextView(this@RoomDetailActivity).apply {
