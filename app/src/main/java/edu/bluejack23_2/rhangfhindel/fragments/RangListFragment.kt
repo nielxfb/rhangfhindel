@@ -42,7 +42,7 @@ class RangListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(true, true, null, null, requireContext())
+        viewModel.onLoad(true, true, null, null, null, null, requireContext())
 
         initRecyclerView()
         observeViewModel()
