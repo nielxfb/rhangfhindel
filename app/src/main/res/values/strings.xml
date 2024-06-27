@@ -17,4 +17,6 @@
     <string name="login_success">Login success!</string>
     <string name="all_field_required">All fields are required!</string>
     <string name="initial_format">Invalid initial format!</string>
+    <string name="biometrics_setup_success">Biometrics setup success!</string>
+    <string name="biometrics_not_setup">Biometrics login is not enabled!</string>
 </resources>
