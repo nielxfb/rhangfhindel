@@ -1,5 +1,6 @@
 package edu.bluejack23_2.rhangfhindel.fragments
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
+import edu.bluejack23_2.rhangfhindel.databinding.FilterModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAllRoomTransactionBinding
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
@@ -23,15 +25,24 @@ class AllRoomTransactionFragment : Fragment() {
     private lateinit var allRoomTransactionBinding: FragmentAllRoomTransactionBinding
     private lateinit var roomAdapter: RoomAdapter
     private lateinit var searchBar: SearchView
+    private lateinit var filterModal: Dialog
+    private lateinit var filterModalBinding: FilterModalBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         allRoomTransactionBinding =
             DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_all_room_transaction,
+                container,
+                false
+            )
+        filterModalBinding =
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.filter_modal,
                 container,
                 false
             )
@@ -41,8 +52,18 @@ class AllRoomTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initFilterModal()
+
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
-        viewModel.onLoad(false, false, null, null, requireContext())
+        viewModel.onLoad(
+            false,
+            false,
+            null,
+            null,
+            filterModal,
+            filterModalBinding,
+            requireContext()
+        )
 
         searchBar =
             allRoomTransactionBinding.root.findViewById(R.id.search_bar_all_room_transaction)
@@ -52,6 +73,17 @@ class AllRoomTransactionFragment : Fragment() {
         observeViewModel()
 
         setEvent()
+    }
+
+    private fun initFilterModal() {
+        filterModal = Dialog(requireContext())
+        filterModalBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.filter_modal,
+            null,
+            false
+        )
+        filterModal.setContentView(filterModalBinding.root)
     }
 
     private fun initRecyclerView() {
@@ -73,6 +105,14 @@ class AllRoomTransactionFragment : Fragment() {
                 return true
             }
         })
+        allRoomTransactionBinding.filterButtonRooms.setOnClickListener {
+            viewModel.showFilterModal()
+        }
+        filterModalBinding.applyFilterButton.setOnClickListener {
+            val is6Floor = filterModalBinding.checkbox6Floor.isChecked
+            val is7Floor = filterModalBinding.checkbox7Floor.isChecked
+            viewModel.onApplyFilterRoom(is6Floor, is7Floor)
+        }
     }
 
     private fun observeViewModel() {

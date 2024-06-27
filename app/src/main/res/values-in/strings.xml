@@ -19,4 +19,9 @@
     <string name="query_hint">Cari ruangan..</string>
     <string name="password_placeholder">Kata Sandi</string>
     <string name="room_transactions">Transaksi Ruangan</string>
+    <string name="filter">Filter sesuai lantai</string>
+    <string name="_6th_floor">Lantai 6</string>
+    <string name="_7th_floor">Lantai 7</string>
+    <string name="apply_filter">Terapkan filter</string>
+    <string name="booking_confirmation">Apakah Anda ingin booking Ruang %s?</string>
 </resources>

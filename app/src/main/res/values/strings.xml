@@ -21,4 +21,9 @@
     <string name="biometrics_not_setup">Biometrics login is not enabled!</string>
     <string name="greetings">Hello, %s</string>
     <string name="query_hint">Search rooms..</string>
+    <string name="filter">Filter by floors</string>
+    <string name="_6th_floor">6th floor</string>
+    <string name="_7th_floor">7th floor</string>
+    <string name="apply_filter">Apply filter</string>
+    <string name="booking_confirmation">Do you want to book Room %s?</string>
 </resources>

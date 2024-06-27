@@ -17,7 +17,15 @@ class AlarmReceiver : BroadcastReceiver() {
             Log.d("ALARM", "Successfully called for schedule")
 
             val viewModel = RoomTransactionViewModel()
-            viewModel.onLoad(fetchRang = true, fetchAlternatives = true, null, null, null)
+            viewModel.onLoad(
+                fetchRang = true,
+                fetchAlternatives = true,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
 
             val rangs = viewModel.rangs.value
             val alternatives = viewModel.alternatives.value
