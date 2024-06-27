@@ -31,10 +31,15 @@ class RoomTransactionViewModel : ViewModel() {
     var redirectRoom = MutableLiveData<Detail?>()
     var message = MutableLiveData<String>()
 
+    var allRangs = listOf<Detail>()
+    var allRooms = listOf<Detail>()
+
     lateinit var modal: Dialog
     lateinit var modalBinding: BookModalBinding
     lateinit var currRoom: Detail
     lateinit var context: Context
+
+    var searchQuery = MutableLiveData<String>()
 
 
     fun onLoad(
@@ -62,11 +67,13 @@ class RoomTransactionViewModel : ViewModel() {
                 Log.d("Fetching", "Ini response: ${response.Details}")
 
                 if (fetchRang) {
-                    rangs.value = getAvailableRangs(response.Details
+                    allRangs = getAvailableRangs(response.Details
                         .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") })
+                    rangs.value = allRangs
                 } else {
-                    roomTransactions.value = response.Details
+                    allRooms = response.Details
                         .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
+                    roomTransactions.value = allRooms
                 }
 
 

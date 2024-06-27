@@ -15,4 +15,6 @@
     <string name="initial_format">Format inisial tidak sesuai!</string>
     <string name="biometrics_setup_success">Berhasil menyimpan biometrik!</string>
     <string name="biometrics_not_setup">Fitur biometrik belum diaktifkan!</string>
+    <string name="greetings">Halo, %s</string>
+    <string name="query_hint">Cari ruangan..</string>
 </resources>

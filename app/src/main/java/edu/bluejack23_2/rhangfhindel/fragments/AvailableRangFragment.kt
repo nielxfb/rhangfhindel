@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ class AvailableRangFragment : Fragment() {
     private lateinit var roomAdapter: RoomAdapter
 
     private lateinit var modal: Dialog
+    private lateinit var searchBar: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,8 @@ class AvailableRangFragment : Fragment() {
         viewModel = ViewModelProvider(this)[RoomTransactionViewModel::class.java]
         viewModel.onLoad(true, true, modal, modalBinding, requireContext())
 
+        searchBar = availableRangBinding.root.findViewById(R.id.search_bar_rang_list)
+
         initRecyclerView()
 
         observeViewModel()
@@ -62,6 +66,17 @@ class AvailableRangFragment : Fragment() {
         modalBinding.buttonYes.setOnClickListener {
             viewModel.bookRang(requireContext())
         }
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchQuery.value = query
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchQuery.value = newText
+                return true
+            }
+        })
     }
 
     private fun initModal() {
@@ -85,6 +100,7 @@ class AvailableRangFragment : Fragment() {
         viewModel.apply {
             rangs.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
+                return@Observer
             })
 
             isLoading.observe(viewLifecycleOwner, Observer {
@@ -106,6 +122,13 @@ class AvailableRangFragment : Fragment() {
             bookedRoomList.observe(viewLifecycleOwner, Observer { bookedRooms ->
                 if (rangs.value != null) {
                     roomAdapter.updateRooms(rangs.value!!)
+                }
+                return@Observer
+            })
+            searchQuery.observe(viewLifecycleOwner, Observer { query ->
+                rangs.value = allRangs
+                rangs.value = rangs.value!!.filter { room ->
+                    room.RoomName.contains(query)
                 }
             })
         }

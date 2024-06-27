@@ -19,4 +19,6 @@
     <string name="initial_format">Invalid initial format!</string>
     <string name="biometrics_setup_success">Biometrics setup success!</string>
     <string name="biometrics_not_setup">Biometrics login is not enabled!</string>
+    <string name="greetings">Hello, %s</string>
+    <string name="query_hint">Search rooms..</string>
 </resources>

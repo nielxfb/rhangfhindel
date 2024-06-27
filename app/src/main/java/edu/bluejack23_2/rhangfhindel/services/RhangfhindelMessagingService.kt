@@ -60,15 +60,6 @@ class RhangfhindelMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun getRemoteView(title: String, description: String): RemoteViews {
-        val remoteView =
-            RemoteViews("edu.bluejack23_2.rhangfhindel", R.layout.notification)
-        remoteView.setTextViewText(R.id.title, title)
-        remoteView.setTextViewText(R.id.description, description)
-        remoteView.setImageViewResource(R.id.app_logo, R.mipmap.ic_launcher_round)
-        return remoteView
-    }
-
     @SuppressLint("UnspecifiedImmutableFlag")
     fun generateNotification(title: String, description: String) {
         Log.d("FCM", "Generating notification with title: $title and description: $description")
@@ -88,8 +79,8 @@ class RhangfhindelMessagingService : FirebaseMessagingService() {
             .setVibrate(longArrayOf(300, 100, 100))
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
-
-        builder = builder.setContent(getRemoteView(title, description))
+            .setContentTitle(title)
+            .setContentText(description)
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
