@@ -11,56 +11,56 @@
     </data>
 
     <FrameLayout
-        android:background="@color/light_highlight"
-        android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_highlight"
         android:paddingLeft="20dp"
+        android:paddingTop="20dp"
         android:paddingRight="20dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".fragments.DashboardFragment"
+                android:layout_marginBottom="20dp"
                 android:orientation="vertical"
-                android:layout_marginBottom="20dp">
+                tools:context=".fragments.DashboardFragment">
 
                 <TextView
-                    android:textColor="@color/light_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hello," />
+                    android:text="Hello,"
+                    android:textColor="@color/light_font" />
 
                 <TextView
-                    android:textColor="@color/bold_font"
-                    android:textSize="20sp"
-                    android:textFontWeight="700"
-                    android:text=""
                     android:id="@+id/text_view_greeting"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/bold_font"
+                    android:textFontWeight="700"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:background="@drawable/shape_white_corner_radius"
-                android:padding="15dp"
-                android:orientation="vertical"
                 android:id="@+id/available_rang_container"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content">
+                android:background="@drawable/shape_white_corner_radius"
+                android:orientation="vertical"
+                android:padding="15dp">
 
                 <TextView
-                    android:textColor="@color/bold_font"
-                    android:layout_marginBottom="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Available Rangs" />
+                    android:layout_marginBottom="5dp"
+                    android:text="Available Rangs"
+                    android:textColor="@color/bold_font" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_dashboard_available_rang"
@@ -68,28 +68,53 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/secondary_button"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/view_all_available_rangs"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary_color"
+                    android:textFontWeight="700" />
+
             </LinearLayout>
 
             <LinearLayout
-                android:background="@drawable/shape_white_corner_radius"
-                android:padding="15dp"
-                android:orientation="vertical"
                 android:id="@+id/active_rang_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white_corner_radius"
+                android:orientation="vertical"
+                android:padding="15dp">
 
                 <TextView
-                    android:textColor="@color/bold_font"
-                    android:layout_marginBottom="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Booked Rangs" />
+                    android:layout_marginBottom="5dp"
+                    android:text="Booked Rangs"
+                    android:textColor="@color/bold_font" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_dashboard_available_active_rang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/accent_background"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/view_all_booked_rangs"
+                    android:textAllCaps="false"
+                    android:textColor="@color/accent"
+                    android:textFontWeight="700" />
+
 
             </LinearLayout>
 

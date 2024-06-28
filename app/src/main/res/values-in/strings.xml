@@ -28,4 +28,6 @@
     <string name="register_biometric_description">Gunakan kredensial biometrik untuk melanjutkan</string>
     <string name="cancel">Batalkan</string>
     <string name="login_with_biometric">Masuk dengan Biometrik</string>
+    <string name="view_all_available_rangs">Lihat semua rang kosong</string>
+    <string name="view_all_booked_rangs">Lihat semua booked rang</string>
 </resources>
