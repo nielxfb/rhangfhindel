@@ -17,6 +17,7 @@ import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
 import edu.bluejack23_2.rhangfhindel.databinding.FilterModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentAllRoomTransactionBinding
+import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class AllRoomTransactionFragment : Fragment() {
@@ -77,13 +78,12 @@ class AllRoomTransactionFragment : Fragment() {
 
     private fun initFilterModal() {
         filterModal = Dialog(requireContext())
-        filterModalBinding = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.filter_modal,
-            null,
-            false
-        )
         filterModal.setContentView(filterModalBinding.root)
+        filterModal.window?.setLayout(
+            800,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        filterModal.setCancelable(true)
     }
 
     private fun initRecyclerView() {
