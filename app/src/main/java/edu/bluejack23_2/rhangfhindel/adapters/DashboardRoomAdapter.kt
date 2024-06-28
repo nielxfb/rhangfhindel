@@ -31,11 +31,11 @@ class DashboardRoomAdapter(
         val room = rooms[position]
         holder.bind(room)
 
-        if (!activeRang) {
-            holder.binding.root.setOnClickListener {
-                viewModel.redirectRoom.value = room
-            }
-        } else {
+        holder.binding.root.setOnClickListener {
+            viewModel.redirectRoom.value = room
+        }
+
+        if (activeRang) {
             holder.binding.root.setBackgroundResource(R.drawable.shape_accent_corner_radius_border)
             holder.binding.textViewRoomNumber.apply {
                 setTextColor(resources.getColor(R.color.accent))
