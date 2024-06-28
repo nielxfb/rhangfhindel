@@ -76,6 +76,11 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun scheduleAlarm() {
+        val prefs = getSharedPreferences("AlarmPrefs", Context.MODE_PRIVATE)
+        val isAlarmSet = prefs.getBoolean("isAlarmSet", false)
+
+        if (isAlarmSet) return
+
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val alarmIntent = Intent(this, AlarmReceiver::class.java)
@@ -89,8 +94,8 @@ class LoginActivity : BaseActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 10)
-            set(Calendar.MINUTE, 51)
+            set(Calendar.HOUR_OF_DAY, 6)
+            set(Calendar.MINUTE, 30)
         }
 
         alarmManager.setExactAndAllowWhileIdle(
@@ -98,6 +103,10 @@ class LoginActivity : BaseActivity() {
             calendar.timeInMillis,
             pendingIntent
         )
+
+        val editor = prefs.edit()
+        editor.putBoolean("isAlarmSet", true)
+        editor.apply()
     }
 
 }
