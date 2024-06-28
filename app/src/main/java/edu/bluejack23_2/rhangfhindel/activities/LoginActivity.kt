@@ -19,6 +19,7 @@ import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.NotificationRepository
 import edu.bluejack23_2.rhangfhindel.utils.AlarmReceiver
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
+import edu.bluejack23_2.rhangfhindel.utils.SharedRepository
 import edu.bluejack23_2.rhangfhindel.viewmodels.LoginViewModel
 import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 import kotlinx.coroutines.launch
@@ -35,6 +36,8 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        SharedRepository.onLoad()
 
         init()
         scheduleAlarm()
@@ -66,6 +69,8 @@ class LoginActivity : BaseActivity() {
     override fun setEvent() {}
 
     private fun initViewModel() {
+        val roomViewModel = RoomTransactionViewModel()
+        roomViewModel.onLoad(true, true, null, null, null, null, this)
         val factory = LoginViewModelFactory(this)
         viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
     }
@@ -84,8 +89,8 @@ class LoginActivity : BaseActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 11)
-            set(Calendar.MINUTE, 26)
+            set(Calendar.HOUR_OF_DAY, 10)
+            set(Calendar.MINUTE, 51)
         }
 
         alarmManager.setExactAndAllowWhileIdle(
