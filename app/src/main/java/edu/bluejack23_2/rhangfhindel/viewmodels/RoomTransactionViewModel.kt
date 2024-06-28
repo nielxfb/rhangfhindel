@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.databinding.FilterModalBinding
@@ -13,6 +14,8 @@ import edu.bluejack23_2.rhangfhindel.repositories.FirebaseRepository
 import edu.bluejack23_2.rhangfhindel.repositories.RoomRepository
 import edu.bluejack23_2.rhangfhindel.utils.Coroutines
 import edu.bluejack23_2.rhangfhindel.utils.SharedPrefManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RoomTransactionViewModel : ViewModel() {
 
@@ -30,6 +33,7 @@ class RoomTransactionViewModel : ViewModel() {
 
     var allRangs = listOf<Detail>()
     var allRooms = listOf<Detail>()
+    var allAlternatives = listOf<Detail>()
 
     lateinit var bookModal: Dialog
     lateinit var bookModalBinding: BookModalBinding
@@ -41,7 +45,6 @@ class RoomTransactionViewModel : ViewModel() {
 
     var searchQuery = MutableLiveData<String>()
 
-
     fun onLoad(
         fetchRang: Boolean,
         fetchAlternatives: Boolean,
@@ -50,23 +53,23 @@ class RoomTransactionViewModel : ViewModel() {
         filterModal: Dialog?,
         filterModalBinding: FilterModalBinding?,
         context: Context?
-    ) {
-        redirectRoom.value = null
-
-        if (bookModal != null) {
-            this.bookModal = bookModal
-        }
-        if (bookModalBinding != null) {
-            this.bookModalBinding = bookModalBinding
-        }
-        if (filterModal != null) {
-            this.filterModal = filterModal
-        }
-        if (filterModalBinding != null) {
-            this.filterModalBinding = filterModalBinding
-        }
-
+    ): Boolean {
         Coroutines.main {
+            redirectRoom.value = null
+
+            if (bookModal != null) {
+                this.bookModal = bookModal
+            }
+            if (bookModalBinding != null) {
+                this.bookModalBinding = bookModalBinding
+            }
+            if (filterModal != null) {
+                this.filterModal = filterModal
+            }
+            if (filterModalBinding != null) {
+                this.filterModalBinding = filterModalBinding
+            }
+
             errorMessage.value = ""
             isLoading.value = true
             try {
@@ -75,19 +78,21 @@ class RoomTransactionViewModel : ViewModel() {
                 Log.d("Fetching", "Ini response: ${response.Details}")
 
                 if (fetchRang) {
-                    allRangs = getAvailableRangs(response.Details
-                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") })
+                    allRangs = getAvailableRangs(response.Details.filter {
+                        it.Campus == "ANGGREK" && !it.RoomName.contains("724")
+                    })
                     rangs.value = allRangs
                 } else {
-                    allRooms = response.Details
-                        .filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
+                    allRooms =
+                        response.Details.filter { it.Campus == "ANGGREK" && !it.RoomName.contains("724") }
                     roomTransactions.value = allRooms
                 }
 
 
                 if (fetchAlternatives) {
-                    alternatives.value = getAlternativeRangs(response.Details
-                        .filter { it.Campus == "ANGGREK" })
+                    allAlternatives =
+                        getAlternativeRangs(response.Details.filter { it.Campus == "ANGGREK" })
+                    alternatives.value = allAlternatives
                 }
 
                 Log.d("Fetching", "Selesai fetch")
@@ -106,6 +111,8 @@ class RoomTransactionViewModel : ViewModel() {
             }
             isLoading.value = false
         }
+
+        return errorMessage.value == ""
     }
 
     private fun getAvailableRangs(roomTransactions: List<Detail>): List<Detail> {
@@ -116,9 +123,7 @@ class RoomTransactionViewModel : ViewModel() {
             val statusDetail = detail.StatusDetails
 
             val allIndicesEmpty = activeIndices.all { index ->
-                index < statusDetail.size &&
-                        (statusDetail[index].isEmpty()
-                                || statusDetail[index][0].Status == "C")
+                index < statusDetail.size && (statusDetail[index].isEmpty() || statusDetail[index][0].Status == "C")
             }
 
             if (allIndicesEmpty) {
@@ -151,13 +156,11 @@ class RoomTransactionViewModel : ViewModel() {
             val isValidRang =
                 (statusDetail[1].isNotEmpty() && statusDetail[1][0].Status != "C" && areFollowingIndicesValid(
                     3
-                )) ||
-                        (statusDetail[3].isNotEmpty() && statusDetail[3][0].Status != "C" && areFollowingIndicesValid(
-                            5
-                        )) ||
-                        (statusDetail[5].isNotEmpty() && statusDetail[5][0].Status != "C" && areFollowingIndicesValid(
-                            7
-                        ))
+                )) || (statusDetail[3].isNotEmpty() && statusDetail[3][0].Status != "C" && areFollowingIndicesValid(
+                    5
+                )) || (statusDetail[5].isNotEmpty() && statusDetail[5][0].Status != "C" && areFollowingIndicesValid(
+                    7
+                ))
 
             if (isValidRang) {
                 alternativeRangs.add(detail)
@@ -221,8 +224,7 @@ class RoomTransactionViewModel : ViewModel() {
         Coroutines.main {
             isLoading.value = true
             FirebaseRepository.addBooker(
-                currRoom.RoomName,
-                SharedPrefManager.getAssistant(context)!!.Username
+                currRoom.RoomName, SharedPrefManager.getAssistant(context)!!.Username
             )
             isLoading.value = false
             closeBookModal()
