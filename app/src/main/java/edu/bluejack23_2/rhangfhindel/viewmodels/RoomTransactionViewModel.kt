@@ -54,8 +54,9 @@ class RoomTransactionViewModel : ViewModel() {
         filterModalBinding: FilterModalBinding?,
         context: Context?
     ): Boolean {
+        redirectRoom.value = null
+
         Coroutines.main {
-            redirectRoom.value = null
 
             if (bookModal != null) {
                 this.bookModal = bookModal
