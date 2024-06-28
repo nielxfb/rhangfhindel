@@ -78,7 +78,7 @@ class ProfileFragment : Fragment() {
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(requireActivity().getString(R.string.login_with_biometric))
+            .setTitle(requireActivity().getString(R.string.register_biometric))
             .setSubtitle(requireActivity().getString(R.string.register_biometric_description))
             .setNegativeButtonText(requireActivity().getString(R.string.cancel))
             .build()
