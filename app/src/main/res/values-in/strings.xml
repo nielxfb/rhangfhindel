@@ -24,8 +24,8 @@
     <string name="_7th_floor">Lantai 7</string>
     <string name="apply_filter">Terapkan filter</string>
     <string name="booking_confirmation">Apakah Anda ingin booking Ruang %s?</string>
-    <string name="register_biometric">Register Biometric</string>
-    <string name="register_biometric_description">Please use your biometric credentials to continue</string>
-    <string name="cancel">Cancel</string>
-    <string name="login_with_biometric">Login with Biometric</string>
+    <string name="register_biometric">Daftarkan Biometrik</string>
+    <string name="register_biometric_description">Gunakan kredensial biometrik untuk melanjutkan</string>
+    <string name="cancel">Batalkan</string>
+    <string name="login_with_biometric">Masuk dengan Biometrik</string>
 </resources>
