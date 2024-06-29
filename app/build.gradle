@@ -96,4 +96,6 @@ dependencies {
     //parcelize
     implementation "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.8.0"
 
+    // encryption
+    implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 }
