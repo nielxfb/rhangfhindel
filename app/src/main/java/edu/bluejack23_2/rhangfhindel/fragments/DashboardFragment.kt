@@ -9,14 +9,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.rhangfhindel.R
 import edu.bluejack23_2.rhangfhindel.activities.RoomDetailActivity
 import edu.bluejack23_2.rhangfhindel.adapters.DashboardRoomAdapter
-import edu.bluejack23_2.rhangfhindel.adapters.RoomAdapter
 import edu.bluejack23_2.rhangfhindel.databinding.FragmentDashboardBinding
 import edu.bluejack23_2.rhangfhindel.viewmodels.HomeViewModel
-import edu.bluejack23_2.rhangfhindel.viewmodels.RoomTransactionViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -51,7 +51,7 @@ class DashboardFragment : Fragment() {
 
         observeViewModel()
 
-
+        setEvent()
     }
 
     private fun initRecyclerView() {
@@ -101,6 +101,26 @@ class DashboardFragment : Fragment() {
                     startActivity(intent)
                 }
             })
+        }
+    }
+
+    private fun setEvent() {
+        dashboardBinding.viewAvailableRangButton.setOnClickListener {
+            val action =
+                DashboardFragmentDirections.actionDashboardFragmentToRoomTransactionFragment()
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.dashboard_fragment, true)
+                .build()
+            it.findNavController().navigate(action, navOptions)
+        }
+
+        dashboardBinding.viewBookedRangButton.setOnClickListener {
+            val action =
+                DashboardFragmentDirections.actionDashboardFragmentToRangListFragment()
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.dashboard_fragment, true)
+                .build()
+            it.findNavController().navigate(action, navOptions)
         }
     }
 }

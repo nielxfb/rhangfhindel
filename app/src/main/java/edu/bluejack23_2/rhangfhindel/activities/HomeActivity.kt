@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
@@ -28,8 +30,9 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun init() {
-        val navController = findNavController(R.id.curr_fragment)
         val navbarView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.curr_fragment)
+        val navController = navHostFragment!!.findNavController()
         navbarView.setupWithNavController(navController)
         val factory = LoginViewModelFactory(this)
         loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]

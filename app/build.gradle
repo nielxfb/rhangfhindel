@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     namespace 'edu.bluejack23_2.rhangfhindel'
     compileSdk 33

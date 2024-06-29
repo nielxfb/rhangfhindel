@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hello,"
+                    android:text="@string/greetings"
                     android:textColor="@color/light_font" />
 
                 <TextView
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Available Rangs"
+                    android:text="@string/available_rang"
                     android:textColor="@color/bold_font" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -69,6 +69,7 @@
                     android:orientation="horizontal" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_available_rang_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="1dp"
@@ -94,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Booked Rangs"
+                    android:text="@string/booked_rang"
                     android:textColor="@color/bold_font" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -104,6 +105,7 @@
                     android:orientation="horizontal" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_booked_rang_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="1dp"
