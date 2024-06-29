@@ -38,10 +38,9 @@ class AlarmReceiver : BroadcastReceiver() {
             }
 
             try {
-                NotificationRepository.sendNotification(
+                NotificationRepository.sendPersonalNotification(
                     "Available rangs for today",
                     "Rang: ${rangStr}\nAlternatives: $alternativeStr",
-                    "None"
                 )
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -1,6 +1,7 @@
 package edu.bluejack23_2.rhangfhindel.networks
 
 import edu.bluejack23_2.rhangfhindel.modules.requests.NotificationRequest
+import edu.bluejack23_2.rhangfhindel.modules.requests.PersonalNotificationRequest
 import edu.bluejack23_2.rhangfhindel.modules.requests.SaveTokenRequest
 import edu.bluejack23_2.rhangfhindel.modules.responses.NotificationResponse
 import edu.bluejack23_2.rhangfhindel.modules.responses.SaveTokenResponse
@@ -18,6 +19,11 @@ interface ServerApiService {
     @POST("send-notification")
     suspend fun sendNotification(
         @Body notification: NotificationRequest
+    ): Response<NotificationResponse>
+
+    @POST("send-personal-notification")
+    suspend fun sendPersonalNotification(
+        @Body notification: PersonalNotificationRequest
     ): Response<NotificationResponse>
 
 }
