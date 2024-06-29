@@ -203,6 +203,18 @@ class RoomTransactionViewModel : ViewModel() {
             }
             return@filter false
         }
+
+        alternatives.value = allAlternatives
+        alternatives.value = alternatives.value!!.filter { detail ->
+            if ((is6Floor && is7Floor) || (!is6Floor && !is7Floor)) {
+                return@filter true
+            } else if (is6Floor) {
+                return@filter detail.RoomName.startsWith("6")
+            } else if (is7Floor) {
+                return@filter detail.RoomName.startsWith("7")
+            }
+            return@filter false
+        }
         filterModal.dismiss()
     }
 

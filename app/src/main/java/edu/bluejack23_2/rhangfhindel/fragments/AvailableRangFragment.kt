@@ -25,8 +25,7 @@ class AvailableRangFragment : Fragment() {
 
     private lateinit var viewModel: RoomTransactionViewModel
     private lateinit var availableRangBinding: FragmentAvailableRangBinding
-    private lateinit var recyclerViewRoomBinding: RecyclerViewRoomBinding
-    private lateinit var scheduleLayoutBinding: ScheduleLayoutBinding
+    private lateinit var alternativeAdapter: RoomAdapter
     private lateinit var bookModalBinding: BookModalBinding
     private lateinit var filterModalBinding: FilterModalBinding
     private lateinit var roomAdapter: RoomAdapter
@@ -127,12 +126,22 @@ class AvailableRangFragment : Fragment() {
         roomAdapter = RoomAdapter(true, emptyList(), viewModel)
         recyclerView.adapter = roomAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val alternativeRecyclerView = availableRangBinding.recyclerViewAlternativeRang
+        alternativeAdapter = RoomAdapter(true, emptyList(), viewModel)
+        alternativeRecyclerView.adapter = alternativeAdapter
+        alternativeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun observeViewModel() {
         viewModel.apply {
             rangs.observe(viewLifecycleOwner, Observer { rooms ->
                 roomAdapter.updateRooms(rooms)
+                return@Observer
+            })
+
+            alternatives.observe(viewLifecycleOwner, Observer { alternatives ->
+                alternativeAdapter.updateRooms(alternatives)
                 return@Observer
             })
 
@@ -155,12 +164,19 @@ class AvailableRangFragment : Fragment() {
             bookedRoomList.observe(viewLifecycleOwner, Observer { bookedRooms ->
                 if (rangs.value != null) {
                     roomAdapter.updateRooms(rangs.value!!)
+                    alternativeAdapter.updateRooms(alternatives.value!!)
                 }
                 return@Observer
             })
+            
             searchQuery.observe(viewLifecycleOwner, Observer { query ->
                 rangs.value = allRangs
                 rangs.value = rangs.value!!.filter { room ->
+                    room.RoomName.contains(query)
+                }
+
+                alternatives.value = allAlternatives
+                alternatives.value = alternatives.value!!.filter { room ->
                     room.RoomName.contains(query)
                 }
             })
