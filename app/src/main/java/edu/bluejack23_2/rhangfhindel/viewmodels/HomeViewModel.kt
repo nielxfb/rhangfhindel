@@ -1,12 +1,9 @@
 package edu.bluejack23_2.rhangfhindel.viewmodels
 
-import android.app.Dialog
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import edu.bluejack23_2.rhangfhindel.databinding.BookModalBinding
 import edu.bluejack23_2.rhangfhindel.models.Assistant
 import edu.bluejack23_2.rhangfhindel.models.Detail
 import edu.bluejack23_2.rhangfhindel.repositories.FirebaseRepository
@@ -18,11 +15,11 @@ class HomeViewModel() : ViewModel() {
 
     var assistant = MutableLiveData<Assistant>()
 
-    val errorMessage = MutableLiveData<String>()
-    val isLoading = MutableLiveData<Boolean>()
-    val success = MutableLiveData<Boolean>()
-    val rangs = MutableLiveData<List<Detail>>()
-    val activeRangs = MutableLiveData<List<Detail>>()
+    val errorMessage = MutableLiveData("")
+    val isLoading = MutableLiveData(false)
+    val success = MutableLiveData(false)
+    val rangs = MutableLiveData<List<Detail>>().apply { value = listOf() }
+    val activeRangs = MutableLiveData<List<Detail>>().apply { value = listOf() }
     var bookedRoomList = MutableLiveData<List<String>>().apply { value = listOf("") }
     val bookedInitialList = MutableLiveData<List<String>>().apply { value = listOf("") }
     var redirectRoom = MutableLiveData<Detail?>()

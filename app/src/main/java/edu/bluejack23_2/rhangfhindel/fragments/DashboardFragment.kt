@@ -25,7 +25,6 @@ class DashboardFragment : Fragment() {
     private lateinit var roomAdapter: DashboardRoomAdapter
     private lateinit var activeRangAdapter: DashboardRoomAdapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,11 +70,17 @@ class DashboardFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.apply {
             rangs.observe(viewLifecycleOwner, Observer { rang ->
-                roomAdapter.updateRooms(rang)
+                if (rang != null) {
+                    roomAdapter.updateRooms(rang)
+                    dashboardBinding.noRoomsFoundAvailRang.visibility = View.GONE
+                }
             })
 
             activeRangs.observe(viewLifecycleOwner, Observer { rooms ->
-                activeRangAdapter.updateRooms(rooms)
+                if (rooms != null) {
+                    activeRangAdapter.updateRooms(rooms)
+                    dashboardBinding.noRoomsFoundBooked.visibility = View.GONE
+                }
             })
 
             isLoading.observe(viewLifecycleOwner, Observer {

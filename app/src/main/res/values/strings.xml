@@ -33,4 +33,5 @@
     <string name="view_all_available_rangs">View all available rangs</string>
     <string name="view_all_booked_rangs">View all booked rangs</string>
     <string name="booked_rang" translatable="false">Booked Rangs</string>
+    <string name="no_rooms">No rooms found.</string>
 </resources>

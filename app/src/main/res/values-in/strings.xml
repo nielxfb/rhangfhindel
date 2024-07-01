@@ -30,4 +30,5 @@
     <string name="login_with_biometric">Masuk dengan Biometrik</string>
     <string name="view_all_available_rangs">Lihat semua rang kosong</string>
     <string name="view_all_booked_rangs">Lihat semua booked rang</string>
+    <string name="no_rooms">Tidak ada ruangan.</string>
 </resources>
