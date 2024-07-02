@@ -66,7 +66,8 @@
                     android:id="@+id/recycler_view_dashboard_available_rang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/no_rooms_found_avail_rang"
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_rooms"
                     android:textAlignment="center"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/view_available_rang_button"
@@ -110,7 +111,8 @@
                     android:id="@+id/recycler_view_dashboard_available_active_rang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/no_rooms_found_booked"
@@ -118,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_rooms"
                     android:textAlignment="center"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/view_booked_rang_button"

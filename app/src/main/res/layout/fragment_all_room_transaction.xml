@@ -56,6 +56,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_bar_all_room_transaction" />
 
+            <TextView
+                android:id="@+id/room_transaction_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_rooms"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_bar_all_room_transaction" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

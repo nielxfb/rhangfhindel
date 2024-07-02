@@ -59,7 +59,14 @@ class RangListFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.apply {
             activeRangs.observe(viewLifecycleOwner, Observer { rooms ->
-                roomAdapter.updateRooms(rooms)
+                if (rooms.isNotEmpty()) {
+                    roomAdapter.updateRooms(rooms)
+                    rangListBinding.bookedNotFound.visibility = View.INVISIBLE
+                    rangListBinding.recyclerViewAllRoomList.visibility = View.VISIBLE
+                } else {
+                    rangListBinding.bookedNotFound.visibility = View.VISIBLE
+                    rangListBinding.recyclerViewAllRoomList.visibility = View.INVISIBLE
+                }
             })
 
             bookedRoomList.observe(viewLifecycleOwner, Observer { bookedRooms ->

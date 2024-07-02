@@ -136,12 +136,26 @@ class AvailableRangFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.apply {
             rangs.observe(viewLifecycleOwner, Observer { rooms ->
-                roomAdapter.updateRooms(rooms)
+                if (rooms.isNotEmpty()) {
+                    roomAdapter.updateRooms(rooms)
+                    availableRangBinding.rangListNotFound.visibility = View.INVISIBLE
+                    availableRangBinding.recyclerViewRangList.visibility = View.VISIBLE
+                } else {
+                    availableRangBinding.recyclerViewRangList.visibility = View.INVISIBLE
+                    availableRangBinding.rangListNotFound.visibility = View.VISIBLE
+                }
                 return@Observer
             })
 
             alternatives.observe(viewLifecycleOwner, Observer { alternatives ->
-                alternativeAdapter.updateRooms(alternatives)
+                if (alternatives.isNotEmpty()) {
+                    alternativeAdapter.updateRooms(alternatives)
+                    availableRangBinding.alternativeNotFound.visibility = View.INVISIBLE
+                    availableRangBinding.recyclerViewAlternativeRang.visibility = View.VISIBLE
+                } else {
+                    availableRangBinding.recyclerViewAlternativeRang.visibility = View.INVISIBLE
+                    availableRangBinding.alternativeNotFound.visibility = View.VISIBLE
+                }
                 return@Observer
             })
 
@@ -168,7 +182,7 @@ class AvailableRangFragment : Fragment() {
                 }
                 return@Observer
             })
-            
+
             searchQuery.observe(viewLifecycleOwner, Observer { query ->
                 rangs.value = allRangs
                 rangs.value = rangs.value!!.filter { room ->

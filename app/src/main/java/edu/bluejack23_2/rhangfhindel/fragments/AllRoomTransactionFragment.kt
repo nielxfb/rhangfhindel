@@ -118,7 +118,14 @@ class AllRoomTransactionFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.apply {
             roomTransactions.observe(viewLifecycleOwner, Observer { rooms ->
-                roomAdapter.updateRooms(rooms)
+                if (rooms.isNotEmpty()) {
+                    roomAdapter.updateRooms(rooms)
+                    allRoomTransactionBinding.recyclerViewAllRoomList.visibility = View.VISIBLE
+                    allRoomTransactionBinding.roomTransactionNotFound.visibility = View.INVISIBLE
+                } else {
+                    allRoomTransactionBinding.recyclerViewAllRoomList.visibility = View.INVISIBLE
+                    allRoomTransactionBinding.roomTransactionNotFound.visibility = View.VISIBLE
+                }
             })
 
             redirectRoom.observe(viewLifecycleOwner, Observer { room ->

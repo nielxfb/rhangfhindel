@@ -70,16 +70,25 @@ class DashboardFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.apply {
             rangs.observe(viewLifecycleOwner, Observer { rang ->
-                if (rang != null) {
+                if (rang.isNotEmpty()) {
                     roomAdapter.updateRooms(rang)
+                    dashboardBinding.recyclerViewDashboardAvailableRang.visibility = View.VISIBLE
                     dashboardBinding.noRoomsFoundAvailRang.visibility = View.GONE
+                } else {
+                    dashboardBinding.recyclerViewDashboardAvailableRang.visibility = View.GONE
+                    dashboardBinding.noRoomsFoundAvailRang.visibility = View.VISIBLE
                 }
             })
 
             activeRangs.observe(viewLifecycleOwner, Observer { rooms ->
-                if (rooms != null) {
+                if (rooms.isNotEmpty()) {
                     activeRangAdapter.updateRooms(rooms)
+                    dashboardBinding.recyclerViewDashboardAvailableActiveRang.visibility =
+                        View.VISIBLE
                     dashboardBinding.noRoomsFoundBooked.visibility = View.GONE
+                } else {
+                    dashboardBinding.recyclerViewDashboardAvailableActiveRang.visibility = View.GONE
+                    dashboardBinding.noRoomsFoundBooked.visibility = View.VISIBLE
                 }
             })
 
