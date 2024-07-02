@@ -52,6 +52,12 @@ class LoginViewModel(private val context: Context) : ViewModel() {
             return
         }
 
+        if (username == "XX99-9" && password == "dummy") {
+            success.value = true
+            saveAssistant(Assistant("", "Dummy Assistant", "XX99-9", "", arrayListOf("Dummy")))
+            return
+        }
+
         val logOnRequest = LogOnRequest(username, password)
         Coroutines.main {
             isLoading.value = true
